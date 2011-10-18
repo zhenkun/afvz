@@ -16,15 +16,28 @@ public class Main extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        final Button button = (Button) findViewById(R.id.btn_game1);
-        button.setOnClickListener(new OnClickListener() {
+        final Button btn_gm1 = (Button) findViewById(R.id.btn_game1);
+        btn_gm1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 // Perform action on clicks
                 Toast.makeText(Main.this, "Game 1", Toast.LENGTH_SHORT).show();
-                Game1 gm1 = new Game1();
+
                 Intent intent = new Intent(Main.this, Game1.class);
                 startActivity(intent);
             }
         });
+        
+        
+        final Button btn_gm2 = (Button) findViewById(R.id.btn_game2);
+        btn_gm2.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on clicks
+                Toast.makeText(Main.this, "Game 2", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(Main.this, Game2.class);
+                startActivity(intent);
+            }
+        });
+        
     }
 }

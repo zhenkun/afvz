@@ -44,10 +44,10 @@ public class ImageAdapter extends BaseAdapter {
 
     // references to our images
     private Integer[] mThumbIds = {
-    		R.drawable.btn, R.drawable.btn1, R.drawable.btn, R.drawable.btn1, R.drawable.btn,
-    		R.drawable.btn1, R.drawable.btn, R.drawable.btn1, R.drawable.btn, R.drawable.btn1,
-    		R.drawable.btn, R.drawable.btn1, R.drawable.btn, R.drawable.btn1, R.drawable.btn,
-    		R.drawable.btn1, R.drawable.btn, R.drawable.btn1, R.drawable.btn, R.drawable.btn1,
-    		R.drawable.btn, R.drawable.btn1, R.drawable.btn, R.drawable.btn1, R.drawable.btn,
+    		R.drawable.btn1, R.drawable.btn2, R.drawable.btn3, R.drawable.btn4, R.drawable.btn5,
+    		R.drawable.btn6, R.drawable.btn7, R.drawable.btn8, R.drawable.btn9, R.drawable.btn10,
+    		R.drawable.btn11, R.drawable.btn12, R.drawable.btn13, R.drawable.btn14, R.drawable.btn15,
+    		R.drawable.btn16, R.drawable.btn17, R.drawable.btn18, R.drawable.btn19, R.drawable.btn20,
+    		R.drawable.btn21, R.drawable.btn22, R.drawable.btn23, R.drawable.btn24, 
     };
 }
