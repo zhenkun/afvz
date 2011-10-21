@@ -2,6 +2,7 @@ package afvz.first;
 
 import java.util.Random;
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -9,8 +10,8 @@ import android.widget.Button;
 
 public class Game2 extends Activity {
 	
-	// grid which keeps track of current states
-	private int[][] grid = new int[5][5];
+	
+	BoardConfig board = new BoardConfig();
 	
 	// array of the buttons to access them directly
 	private Button[][] buttons;
@@ -18,6 +19,7 @@ public class Game2 extends Activity {
 	// display the current state of the buttons
 	private void displayGrid()
 	{
+		
 		// i is row index and j is column index
 		// indexing origin is top left corner
 		int i, j;
@@ -29,165 +31,54 @@ public class Game2 extends Activity {
 			{
 				
 				// determine value of the button and place correct imagine in its spot
-				switch(grid[i][j])
+				switch(board.getGrid(i,j))//grid[i][j])
 				{
-				case 0:
+				case numType.ZERO:
 					buttons[i][j].setBackgroundResource(R.drawable.btn0);
 					break;
-				case 1:
+				case numType.ONE:
 					buttons[i][j].setBackgroundResource(R.drawable.btn1);
 					break;
-				case 2:
+				case numType.TWO:
 					buttons[i][j].setBackgroundResource(R.drawable.btn2);
 					break;
-				case 3:
+				case numType.THREE:
 					buttons[i][j].setBackgroundResource(R.drawable.btn3);
 					break;
-				case 4:
+				case numType.FOUR:
 					buttons[i][j].setBackgroundResource(R.drawable.btn4);
 					break;
-				case 5:
+				case numType.FIVE:
 					buttons[i][j].setBackgroundResource(R.drawable.btn5);
 					break;
-				case 6:
+				case numType.SIX:
 					buttons[i][j].setBackgroundResource(R.drawable.btn6);
 					break;
-				case 7:
+				case numType.SEVEN:
 					buttons[i][j].setBackgroundResource(R.drawable.btn7);
 					break;
-				case 8:
+				case numType.EIGHT:
 					buttons[i][j].setBackgroundResource(R.drawable.btn8);
 					break;
-				case 9:
+				case numType.NINE:
 					buttons[i][j].setBackgroundResource(R.drawable.btn9);
 					break;
-				case 10:
+				case numType.PLUS:
 					buttons[i][j].setBackgroundResource(R.drawable.btn_plus);
 					break;
-				case 11:
+				case numType.MINUS:
 					buttons[i][j].setBackgroundResource(R.drawable.btn_minus);
 					break;
-				case 12:
+				case numType.MULTIPLY:
 					buttons[i][j].setBackgroundResource(R.drawable.btn_times);
 					break;
-				case 13:
+				case numType.EQUALSIGN:
 					buttons[i][j].setBackgroundResource(R.drawable.btn_equal);
 					break;
-				case 14:
-					buttons[i][j].setBackgroundResource(R.drawable.btn_blank);
+				case numType.BLANKTILE:
+					buttons[i][j].setBackgroundColor(Color.BLACK);
 					break;
 				}
-			}
-		}
-	}
-	
-	// swap blank with tile above it
-	private void swapUp(int x, int y)
-	{
-		int temp;
-		temp = grid[x][y];
-		grid[x][y] = grid[x][y-1];
-		grid[x][y-1] = temp;
-	}
-	
-	// swap blank tile with the tile below it
-	private void swapDown(int x, int y)
-	{
-		int temp;
-		temp = grid[x][y];
-		grid[x][y] = grid[x][y+1];
-		grid[x][y+1] = temp;
-	}
-	
-	// swap blank tile with teh one to its left
-	private void swapLeft(int x, int y)
-	{
-		int temp;
-		temp = grid[x][y];
-		grid[x][y] = grid[x-1][y];
-		grid[x-1][y] = temp;
-	}
-	
-	// swap blank tile with one to its right
-	private void swapRight(int x, int y)
-	{
-		int temp;
-		temp = grid[x][y];
-		grid[x][y] = grid[x+1][y];
-		grid[x+1][y] = temp;
-	}
-	
-	// randomly select a direction that is possible to swap the blank tile
-	private int swapDirection(int x, int y)
-	{
-		boolean found = false;
-		int j = 0;
-		Random rn = new Random();
-		
-		// keep choosing until an acceptable tile is found
-		while(!found)
-		{
-			j = rn.nextInt() % 4;
-			
-			// check if it can swap up
-			if(j == 3)
-				if(y != 0)
-					found = true;
-
-			
-			// check if it can  swap left
-			if (j == 2)
-				if(x != 0)
-					found = true;
-
-			
-			// check if it can  swap down
-			if (j == 1)
-				if(y != 4)
-					found = true;
-			
-			// check if it can  swap right
-			if (j ==0)
-				if(x != 4)
-					found = true;
-		}
-		
-		// return direction to swap
-		return j;
-	}
-	
-	// randomly swap tiles to randomize the starting puzzle
-	private void randomizeTiles()
-	{
-		int j, x, y;
-		x = 4;
-		y = 4;
-		
-		// swap the tiles 150 times
-		for(int i = 0; i < 150; i++)
-		{
-			// get a random direction to swap
-			j = swapDirection(x,y);
-			
-			// swap according the the direction given
-			// also adjust position of the blank tile accordingly
-			switch(j)
-			{
-				case 0:
-					swapRight(x,y);
-					x += 1;
-					break;
-				case 1:
-					swapDown(x,y);
-					y += 1;
-					break;
-				case 2:
-					swapLeft(x,y);
-					x -= 1;
-					break;
-				case 3:
-					swapUp(x,y);
-					y -= 1;
 			}
 		}
 	}
@@ -226,38 +117,61 @@ public class Game2 extends Activity {
 		op = rn.nextInt(3);
 		
 		// keep choosing new numbers while solution is not 0 - 9 for this row
-		while(solveRow(num1, num2, op) > 10 || solveRow(num1, num2, op) < 0)
+		while(solveRow(num1, num2, op) >= 10 || solveRow(num1, num2, op) < 0)
 		{
 			num1 = rn.nextInt(10);
 			num2 = rn.nextInt(10);
 		}
 		
 		// add these values into the row
-		grid[row][0] = num1;
-		grid[row][1] = op + 10;
-		grid[row][2] = num2;
-		grid[row][3] = 13;
-		grid[row][4] = solveRow(num1, num2, op);
+		board.setGrid(row, 0, num1);										
+		board.setGrid(row, 1, op + numType.PLUS);							
+		board.setGrid(row, 2, num2);										
+		board.setGrid(row, 3, numType.EQUALSIGN);							
+		board.setGrid(row, 4, solveRow(num1, num2, op));				
 	}
 	
 	// setup the values for the tiles
 	private void setupTiles()
 	{
 		Random rn = new Random();
+		int j;
 
 		// generate 4 solvable equations for the top 4 rows
 		for(int i = 0; i < 4; i++)
 			setupRow(i);
 		
 		// generate random values for the remaining 4 and place the blank tile in the bottom right corner
-		grid[4][0] = rn.nextInt(14);
-		grid[4][1] = rn.nextInt(14);
-		grid[4][2] = rn.nextInt(14);
-		grid[4][3] = rn.nextInt(14);
-		grid[4][4] = 14;
+		
+		for (int i = 0; i < 4; i++)
+		{
+			j = rn.nextInt(14);
+			
+			switch(j)
+			{
+				case 10:
+					board.setGrid(4, i, numType.PLUS);
+					break;
+				case 11:
+					board.setGrid(4, i, numType.MINUS);
+					break;
+				case 12:
+					board.setGrid(4, i, numType.MULTIPLY);
+					break;
+				case 13:
+					board.setGrid(4, i, numType.EQUALSIGN);
+					break;
+				default:
+					board.setGrid(4, i, j);
+						
+			}
+			
+		}
+		
+		board.setGrid(4, 4, numType.BLANKTILE);
 		
 		// swap tiles around
-		randomizeTiles();
+		board.randomizeTiles();
 		
 		// display tiles
 		displayGrid();
@@ -304,29 +218,6 @@ public class Game2 extends Activity {
 		buttons[4][4] = (Button)this.findViewById(R.id.button25);
 	}
 	
-	// adjust the grid according to where it was clicked
-	private void doClick(int x, int y)
-	{
-		// if the spot clicked is to the left of the blank swap left
-		if (x != 0 && grid[x-1][y] == 14)
-			swapLeft(x, y);
-		else
-			// if the spot clicked is to the right of the blank right
-			if (x != 4 && grid[x+1][y] == 14)
-				swapRight(x,y);
-			else
-				// if the spot clicked is below of the blank swap down
-				if (y != 4 && grid[x][y+1] == 14)
-					swapDown(x,y);
-				else
-					// if the spot clicked is above of the blank swap up
-					if(y != 0 && grid[x][y-1] == 14)
-						swapUp(x,y);
-		
-		// redisplay the grid
-		displayGrid();
-	}
-	
 	// bind row of buttons click events
 	private void bindOnClicks()
 	{
@@ -344,35 +235,40 @@ public class Game2 extends Activity {
 		// setup so it passes in its row and 0th position on that row
 		buttons[i][0].setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				doClick(i,0);
+				board.doClick(i,0);
+				displayGrid();
 			}
 		});
 		
 		// setup so it passes in its row and 1st position on that row
 		buttons[i][1].setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				doClick(i,1);
+				board.doClick(i,1);
+				displayGrid();
 			}
 		});
 		
 		// setup so it passes in its row and 2nd position on that row
 		buttons[i][2].setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				doClick(i,2);
+				board.doClick(i,2);
+				displayGrid();
 			}
 		});
 		
 		// setup so it passes in its row and 3rd position on that row
 		buttons[i][3].setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				doClick(i,3);
+				board.doClick(i,3);
+				displayGrid();
 			}
 		});
 		
 		// setup so it passes in its row and 4th position on that row
 		buttons[i][4].setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				doClick(i,4);
+				board.doClick(i,4);
+				displayGrid();
 			}
 		});
 	}
@@ -382,6 +278,8 @@ public class Game2 extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game2);
+        
+        board.boardSize = 5;
         
         // bind the buttons into an array
         bindButtons();
