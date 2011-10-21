@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -14,6 +16,9 @@ public class Main extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                             WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.main);
         
         final Button btn_gm1 = (Button) findViewById(R.id.btn_game1);
@@ -39,5 +44,14 @@ public class Main extends Activity {
             }
         });
         
+        final Button btn_qt = (Button) findViewById(R.id.btn_quit);
+        btn_qt.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on clicks
+                Toast.makeText(Main.this, "Good Bye", Toast.LENGTH_SHORT).show();
+                System.exit(0); 	//exit the program normally
+            }
+        });
+             
     }
 }
