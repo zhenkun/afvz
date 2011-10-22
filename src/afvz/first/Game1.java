@@ -8,6 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class Game1 extends Activity {
 
@@ -15,6 +16,8 @@ public class Game1 extends Activity {
 
 	// array of the buttons to access them directly
 	private Button[][] buttons = new Button[5][5];
+	
+	public Integer boardsize = 5;
 
 	// all button resources
 	private Integer[] btn_res_id = {
@@ -39,8 +42,8 @@ public class Game1 extends Activity {
 		// i is row index and j is column index
 		// indexing origin is top left corner
 		// loop through all buttons
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 5; j++) {
+		for (int i = 0; i < boardsize; i++) {
+			for (int j = 0; j < boardsize; j++) {
 				int val = board.getGrid(i, j);
 				if ((val > numType.ZERO) && (val <= numType.TWENTYFOUR))
 					buttons[i][j].setBackgroundResource(btn_res_id[val-1]);
@@ -48,18 +51,46 @@ public class Game1 extends Activity {
 					buttons[i][j].setBackgroundColor(Color.BLACK);
 			}
 		}
+		if(isBoardValid()) 
+			Toast.makeText(Game1.this, "You Win", Toast.LENGTH_SHORT).show();
 	}
 
+	public Boolean isBoardValid()
+	{
+		int val;
+		Boolean res=true;
+		
+		// if the first one is the tile
+		if (board.getGrid(0, 0) == numType.BLANKTILE) {
+			for (int i = 1; i < boardsize*boardsize; i++) {
+				val = board.getGrid(i/boardsize, i%boardsize);
+				res &= (val == i);
+				if (!res) return false;		//short circuit
+			}
+			return res;
+		}
+		// if the last one is the tile
+		else if (board.getGrid(boardsize-1, boardsize-1) == numType.BLANKTILE) {
+			for (int i = 0; i < boardsize*boardsize-1; i++) {
+				val = board.getGrid(i/boardsize, i%boardsize);
+				res &= (val == i+1);
+				if (!res) return false;		//short circuit
+			}
+			return res;
+		}
+		else return false;
+	}
+	
 	// initialize the board to the original state, the right bottom is the tile 
 	private void initializeBoard() {
 		int accu = 0;
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 5; j++) {
+		for (int i = 0; i < boardsize; i++) {
+			for (int j = 0; j < boardsize; j++) {
 				accu += 1;
 				board.setGrid(i, j, numType.ZERO + accu);
 			}
 		}
-		board.setGrid(4, 4, numType.BLANKTILE);
+		board.setGrid(boardsize-1, boardsize-1, numType.BLANKTILE);
 	}
 
 	// setup the values for the tiles

@@ -22,6 +22,7 @@ public class Main extends Activity {
         setContentView(R.layout.main);
         
         final Button btn_gm1 = (Button) findViewById(R.id.btn_game1);
+        btn_gm1.setBackgroundResource(R.drawable.game1);
         btn_gm1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 // Perform action on clicks
@@ -34,6 +35,7 @@ public class Main extends Activity {
         
         
         final Button btn_gm2 = (Button) findViewById(R.id.btn_game2);
+        btn_gm2.setBackgroundResource(R.drawable.game2);
         btn_gm2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 // Perform action on clicks
@@ -44,6 +46,7 @@ public class Main extends Activity {
             }
         });
         
+        /*
         final Button btn_qt = (Button) findViewById(R.id.btn_quit);
         btn_qt.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -52,6 +55,6 @@ public class Main extends Activity {
                 System.exit(0); 	//exit the program normally
             }
         });
-             
+          */   
     }
 }
