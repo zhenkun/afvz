@@ -18,5 +18,6 @@
 <activity android:name="afvz.first.Game1" />
 <activity android:name="afvz.first.Game2" />
 
+
     </application>
 </manifest>
