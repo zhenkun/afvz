@@ -8,7 +8,6 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 
 public class Main extends Activity {
@@ -26,9 +25,8 @@ public class Main extends Activity {
         btn_gm1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 // Perform action on clicks
-                Toast.makeText(Main.this, "Game 1", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(Main.this, Game1.class);
+            	Intent intent = new Intent(Main.this, Game1.class);
                 startActivity(intent);
             }
         });
@@ -39,7 +37,6 @@ public class Main extends Activity {
         btn_gm2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 // Perform action on clicks
-                Toast.makeText(Main.this, "Game 2", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(Main.this, Game2.class);
                 startActivity(intent);

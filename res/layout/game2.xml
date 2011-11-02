@@ -5,9 +5,13 @@
   android:layout_height="match_parent" 
   android:gravity="center"
   android:layout_gravity="center"
+  android:id="@+id/game2Frame"
   android:orientation="horizontal" android:baselineAligned="false">
   
-  <TableLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_gravity="center" android:gravity="center" android:stretchColumns="0,2" android:layout_width="500dip" android:layout_height="500dip"> 
+  <ListView android:id="@+id/equationList" android:layout_width="100dp" android:layout_height="500dp" android:clickable="false" android:layout_marginRight="250dp">
+  </ListView>
+  
+  <TableLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_gravity="center" android:gravity="center" android:stretchColumns="0,2" android:layout_width="500dip" android:layout_height="500dip" > 
   		<TableRow>
   			<Button android:id="@+id/button1" android:layout_width="100dp" android:layout_height="100dp"></Button>
     		<Button android:id="@+id/button2" android:layout_width="100dp" android:layout_height="100dp"></Button>

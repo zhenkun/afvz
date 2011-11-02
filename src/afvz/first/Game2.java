@@ -1,14 +1,19 @@
 package afvz.first;
 
 import java.util.Random;
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
 public class Game2 extends Activity {
 	
@@ -17,6 +22,193 @@ public class Game2 extends Activity {
 	
 	// array of the buttons to access them directly
 	private Button[][] buttons;
+	private int equationTouched[];
+	private int solvedEquations[][];
+	private int countTouched;
+	private int countSolved;
+	private int score;
+	private float downX, downY;
+	
+	private String showEquation(int i)
+	{
+		String temp = "";
+		temp = temp + Integer.toString(solvedEquations[i][0]);
+		
+		if(solvedEquations[i][1] == numType.PLUS)
+			temp = temp + "+";
+		if(solvedEquations[i][1] == numType.MINUS)
+			temp = temp + "-";
+		if(solvedEquations[i][1] == numType.MULTIPLY)
+			temp = temp + "X";
+		
+		temp = temp + Integer.toString(solvedEquations[i][2]);
+		temp = temp + "=";
+		temp = temp + Integer.toString(solvedEquations[i][4]);
+		
+		return temp;
+	}
+	
+	private void showSolved()
+	{
+    	ListView list;
+		String equations[] = new String[countSolved + 1];
+		
+		equations[0] = "Score " + Integer.toString(score);
+		for (int i = 1; i < countSolved ; i++)
+			equations[i + 1] = "";
+		
+		for (int i = 0; i < countSolved; i++)
+			equations[i + 1] = showEquation(i);
+		
+		//final String [] items=new String[]{equations[0], equations[1], equations[2]};
+		
+        ArrayAdapter ad=new ArrayAdapter(Game2.this, android.R.layout.simple_list_item_1,equations);
+        list=(ListView)findViewById(R.id.equationList);
+        list.setAdapter(ad);
+    	
+		
+	}
+	
+	// check to see if a currently selected solution is correct
+	private void checkSolution()
+	{
+		int num1, num2, op, val;
+		boolean valid, previous;
+		valid = checkValid();
+		previous = checkPrevious();
+		num1 = -1;
+		num2 = -1;
+		op = -1;
+		val = -1;
+			
+		if(valid && previous == false)
+		{
+			
+			if(getGridVal(1) == numType.EQUALSIGN)
+			{
+				num1 = getGridVal(2);
+				num2 = getGridVal(4);
+				val = getGridVal(0);
+				op = getGridVal(3);
+			}
+			
+			if(getGridVal(3) == numType.EQUALSIGN)
+			{
+				num1 = getGridVal(0);
+				num2 = getGridVal(2);
+				op = getGridVal(1);
+				val = getGridVal(4);
+			}
+			
+			solvedEquations[countSolved][0] = num1;
+			solvedEquations[countSolved][1] = op;
+			solvedEquations[countSolved][2] = num2;
+			solvedEquations[countSolved][3] = numType.EQUALSIGN;
+			solvedEquations[countSolved][4] = val;
+			
+			countSolved++;
+			
+			score += countSolved * 2 + (op - numType.PLUS + 1) * 5;
+			
+			showSolved();
+		}
+		
+	}
+	
+	private boolean checkValid()
+	{
+		boolean flag = false;
+		int num1, num2, val, op;
+		num1 = -1;
+		num2 = -1;
+		val = -1;
+		op = -1;
+	
+		
+		if(getGridVal(1) == numType.EQUALSIGN)
+		{
+			num1 = getGridVal(2);
+			num2 = getGridVal(4);
+			val = getGridVal(0);
+			op = getGridVal(3);
+		}
+		
+		if(getGridVal(3) == numType.EQUALSIGN)
+		{
+			num1 = getGridVal(0);
+			num2 = getGridVal(2);
+			op = getGridVal(1);
+			val = getGridVal(4);
+		}
+		
+		switch(op)
+		{
+			case numType.PLUS:
+				if (num1 + num2 == val)
+					flag = true;
+				break;
+			case numType.MINUS:
+				if (num1 - num2 == val)
+					flag = true;
+				break;
+			case numType.MULTIPLY:
+				if (num1 * num2 == val)
+					flag = true;
+				break;
+		}
+		
+		if (val > numType.NINE)
+			flag = false;
+		
+		return flag;
+	}
+	
+	private int getGridVal(int i)
+	{
+		int val = 0, temp, x, y;
+		temp = equationTouched[i];
+		y = temp % 5;
+		x = temp / 5;
+		val = board.getGrid(x, y);
+		
+		return val;
+	}
+	
+	
+	private boolean checkPrevious()
+	{
+		int num1, num2, op;
+		boolean flag = false;
+		num1 = -1;
+		num2 = -1;
+		op = -1;
+		
+		
+		for (int i = 0; i < countSolved; i++)
+		{
+			if(getGridVal(1) == numType.EQUALSIGN)
+			{
+				num1 = getGridVal(2);
+				num2 = getGridVal(4);
+				op = getGridVal(3);
+			}
+			
+			if(getGridVal(3) == numType.EQUALSIGN)
+			{
+				num1 = getGridVal(0);
+				num2 = getGridVal(2);
+				op = getGridVal(1);
+			}
+			
+			if(solvedEquations[i][0] == num1 && solvedEquations[i][1] == op && solvedEquations[i][2] == num2)
+				flag = true;
+			if(solvedEquations[i][2] == num1 && solvedEquations[i][1] == op && solvedEquations[i][0] == num2)
+				flag = true;
+			
+		}
+		
+		return flag;
+	}
 	
 	// display the current state of the buttons
 	private void displayGrid()
@@ -31,9 +223,8 @@ public class Game2 extends Activity {
 		{
 			for (j = 0; j < 5; j++)
 			{
-				
 				// determine value of the button and place correct imagine in its spot
-				switch(board.getGrid(i,j))//grid[i][j])
+				switch(board.getGrid(i,j))
 				{
 				case numType.ZERO:
 					buttons[i][j].setBackgroundResource(R.drawable.btn0);
@@ -83,6 +274,71 @@ public class Game2 extends Activity {
 				}
 			}
 		}
+	}
+	
+	void displaySelected()
+	{
+		
+		int x, y;
+		for(int i = 0; i < countTouched; i++)
+		{
+			y = equationTouched[i] % 5;
+			x = equationTouched[i] / 5;
+			
+			if (equationTouched[i] != -1)
+			{
+				
+				// determine value of the button and place correct imagine in its spot
+				switch(board.getGrid(x,y))
+				{ 
+				case numType.ZERO:
+					buttons[x][y].setBackgroundResource(R.drawable.selected0);
+					break;
+				case numType.ONE:
+					buttons[x][y].setBackgroundResource(R.drawable.selected1);
+					break;
+				case numType.TWO:
+					buttons[x][y].setBackgroundResource(R.drawable.selected2);
+					break;
+				case numType.THREE:
+					buttons[x][y].setBackgroundResource(R.drawable.selected3);
+					break;
+				case numType.FOUR:
+					buttons[x][y].setBackgroundResource(R.drawable.selected4);
+					break;
+				case numType.FIVE:
+					buttons[x][y].setBackgroundResource(R.drawable.selected5);
+					break;
+				case numType.SIX:
+					buttons[x][y].setBackgroundResource(R.drawable.selected6);
+					break;
+				case numType.SEVEN:
+					buttons[x][y].setBackgroundResource(R.drawable.selected7);
+					break;
+				case numType.EIGHT:
+					buttons[x][y].setBackgroundResource(R.drawable.selected8);
+					break;
+				case numType.NINE:
+					buttons[x][y].setBackgroundResource(R.drawable.selected9);
+					break;
+				case numType.PLUS:
+					buttons[x][y].setBackgroundResource(R.drawable.selected_plus);
+					break;
+				case numType.MINUS:
+					buttons[x][y].setBackgroundResource(R.drawable.selected_minus);
+					break;
+				case numType.MULTIPLY:
+					buttons[x][y].setBackgroundResource(R.drawable.selected_multiply);
+					break;
+				case numType.EQUALSIGN:
+					buttons[x][y].setBackgroundResource(R.drawable.selected_equal);
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		
 	}
 	
 	// figure out the solution to a row given 2 numbers and an operator
@@ -275,9 +531,121 @@ public class Game2 extends Activity {
 		});
 	}
 	
+	private void bindTouch()
+	{
+		LinearLayout mainFrame = (LinearLayout)findViewById(R.id.game2Frame);
+		
+		mainFrame.setOnTouchListener(new View.OnTouchListener() {
+				
+			@Override
+			public boolean onTouch(View v, MotionEvent event) 
+			{
+				touchEvent(v, event);
+				return true;
+			}
+		});
+		
+		for(int i = 0; i < 5; i++)
+			for (int j = 0; j < 5; j++)
+				buttons[i][j].setOnTouchListener(new View.OnTouchListener() {
+					
+					@Override
+					public boolean onTouch(View v, MotionEvent event) 
+					{
+						touchEvent(v, event);					
+						return true;
+					}
+				});
+	}
+		
+	private void touchEvent(View v, MotionEvent event)
+	{
+		float curX, curY;
+		curX = event.getRawX();
+		curY = event.getRawY();
+		int curButton = -1;
+		int location[] = new int[2];
+		
+		if(event.getAction() == MotionEvent.ACTION_UP)
+		{
+			if(downX == event.getRawX() && downY == event.getRawY())
+			{
+				for(int i = 0; i < 5; i++)
+					for (int j = 0; j < 5; j++)
+					{
+						buttons[i][j].getLocationInWindow(location);
+						
+						if(location[0] <= curX && (location[0] + buttons[i][j].getWidth()) >= curX)
+							if(location[1] <= curY && (location[1] + buttons[i][j].getHeight()) >= curY)
+								buttons[i][j].performClick();
+					}
+			}
+			
+			for(int i = 0; i < 5; i++)
+				equationTouched[i] = -1;
+			countTouched = 0;
+			displayGrid();
+		}
+		
+		if(event.getAction() == MotionEvent.ACTION_DOWN)
+		{
+			downX = curX;
+			downY = curY;
+		}
+			
+		if(event.getAction() == MotionEvent.ACTION_MOVE)  
+		{  
+			
+			for(int i = 0; i < 5; i++)
+				for (int j = 0; j < 5; j++)
+				{
+					buttons[i][j].getLocationInWindow(location);
+					
+					if(location[0] <= curX && (location[0] + buttons[i][j].getWidth()) >= curX)
+						if(location[1] <= curY && (location[1] + buttons[i][j].getHeight()) >= curY)
+							curButton = 5 * i + j;
+				}
+			
+			if(curButton != -1)
+			{
+				if(countTouched == 0 || equationTouched[countTouched -1] != curButton)
+				{
+				
+					equationTouched[countTouched] = curButton;
+				
+					countTouched++;
+					
+					if(countTouched > 5)
+					{
+						equationTouched[0] = equationTouched[1];
+						equationTouched[1] = equationTouched[2];
+						equationTouched[2] = equationTouched[3];
+						equationTouched[3] = equationTouched[4];
+						equationTouched[4] = equationTouched[5];
+						countTouched = 5;
+						displayGrid();
+					}
+					
+					displaySelected();
+					
+					if (countTouched == 5)
+						checkSolution();
+				}
+			}
+		}
+	}
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+       	
+    	equationTouched = new int[6];
+    	for (int i = 0; i < 6; i++)
+    		equationTouched[i] = -1;
+    	countTouched = 0;
+    	solvedEquations = new int[10][5];
+    	countSolved = 0;
+    	
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
@@ -286,11 +654,16 @@ public class Game2 extends Activity {
         
         board.boardSize = 5;
         
+        //setup Score and list of equations
+        showSolved();
+        
         // bind the buttons into an array
         bindButtons();
         
         // bind their onClick events
         bindOnClicks();
+        
+        bindTouch();
         
         // setup the grid of tiles
         setupTiles();

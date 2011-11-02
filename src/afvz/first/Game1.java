@@ -44,6 +44,20 @@ public class Game1 extends Activity {
 		mediaPlayer.start();
 	}
 	
+	// when the game is done, freeze the board, let user to start a new one
+	private void freeze_board()	{
+		for(int i=0; i<5; i++)
+			for(int j=0; j<5; j++)
+				buttons[i][j].setEnabled(false);
+	}
+	
+	// when the game is done, freeze the board, let user to start a new one
+	private void active_board()	{
+		for(int i=0; i<5; i++)
+			for(int j=0; j<5; j++)
+				buttons[i][j].setEnabled(true);
+	}
+	
 	// display the current state of the buttons
 	private void displayGrid() {
 		// i is row index and j is column index
@@ -59,10 +73,12 @@ public class Game1 extends Activity {
 			}
 		}
 		play_sound();
-		if(isBoardValid()) 
+		if(isBoardValid()) {
 			Toast.makeText(Game1.this, "You Win", Toast.LENGTH_SHORT).show();
+			freeze_board();
+		}
 	}
-
+	
 	public Boolean isBoardValid()
 	{
 		int val;
@@ -123,6 +139,13 @@ public class Game1 extends Activity {
 		bindRow(2);
 		bindRow(3);
 		bindRow(4);
+		Button btn_new_game = (Button) this.findViewById(R.id.gm1_btn_new);
+		btn_new_game.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				setupTiles();
+				active_board();
+			}
+		});
 	}
 	
 	// bind a row of buttons on click events
