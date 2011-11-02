@@ -2,11 +2,12 @@ package afvz.first;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -37,6 +38,12 @@ public class Game1 extends Activity {
 		{ R.id.gm1_btn21, R.id.gm1_btn22, R.id.gm1_btn23, R.id.gm1_btn24, R.id.gm1_btn25}
 	};
 	
+	private void play_sound()
+	{
+		MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.sound);
+		mediaPlayer.start();
+	}
+	
 	// display the current state of the buttons
 	private void displayGrid() {
 		// i is row index and j is column index
@@ -51,6 +58,7 @@ public class Game1 extends Activity {
 					buttons[i][j].setBackgroundColor(Color.BLACK);
 			}
 		}
+		play_sound();
 		if(isBoardValid()) 
 			Toast.makeText(Game1.this, "You Win", Toast.LENGTH_SHORT).show();
 	}
@@ -116,8 +124,7 @@ public class Game1 extends Activity {
 		bindRow(3);
 		bindRow(4);
 	}
-
-
+	
 	// bind a row of buttons on click events
 	private void bindRow(final int i) {
 		// setup so it passes in its row and 0th position on that row
@@ -161,6 +168,33 @@ public class Game1 extends Activity {
 		});
 	}
 
+	private void set_board_size(int size) {
+		boardsize = size;
+		board.boardSize = size;
+		switch (size) {
+		case 2:
+			for (int i = 0; i < 3; i++) {
+				buttons[2][i].setVisibility(View.INVISIBLE);
+				buttons[i][2].setVisibility(View.INVISIBLE);
+			}
+		case 3:
+			for (int i = 0; i < 4; i++) {
+				buttons[3][i].setVisibility(View.INVISIBLE);
+				buttons[i][3].setVisibility(View.INVISIBLE);
+			}
+		case 4:
+			for (int i = 0; i < 5; i++) {
+				buttons[4][i].setVisibility(View.INVISIBLE);
+				buttons[i][4].setVisibility(View.INVISIBLE);
+			}
+			break;
+		default:
+			boardsize = 5;
+			board.boardSize = 5;
+			break;
+		}
+	}
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -169,10 +203,10 @@ public class Game1 extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.game1);
-		board.boardSize = 5;
 		
 		bindButtons(); 	// bind the buttons into an array
 		bindOnClicks(); // bind their onClick events
+		set_board_size(2);
 		setupTiles(); 	// setup the grid of tiles
 	}
 }

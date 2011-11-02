@@ -83,7 +83,7 @@ public class BoardConfig {
 		y = boardSize - 1;
 
 		// swap the tiles 150 times
-		for (int i = 0; i < 150; i++) {
+		for (int i = 0; i < 400; i++) {
 			// get a random direction to swap
 			j = swapDirection(x, y);
 
