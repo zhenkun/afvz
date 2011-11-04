@@ -1,6 +1,7 @@
 package afvz.first;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -139,6 +140,7 @@ public class Game1 extends Activity {
 		bindRow(2);
 		bindRow(3);
 		bindRow(4);
+		
 		Button btn_new_game = (Button) this.findViewById(R.id.gm1_btn_new);
 		btn_new_game.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -146,6 +148,18 @@ public class Game1 extends Activity {
 				active_board();
 			}
 		});
+		
+		
+		// show AI if the AI button clicked
+        Button btn_aigame = (Button) this.findViewById(R.id.gm2_btn_AI);
+		btn_aigame.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on clicks
+            	Intent intent = new Intent(Game1.this, AI.class);
+                startActivity(intent);
+            }
+        });
+
 	}
 	
 	// bind a row of buttons on click events
@@ -231,5 +245,6 @@ public class Game1 extends Activity {
 		bindOnClicks(); // bind their onClick events
 		set_board_size(2);
 		setupTiles(); 	// setup the grid of tiles
+		
 	}
 }
