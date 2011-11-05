@@ -6,6 +6,16 @@ public class BoardConfig {
 
 	// grid which keeps track of current states
 	private int[][] grid = new int[5][5];
+	
+	// grid which keeps track of current states in AI
+	private int[][] grid2 = new int[5][5];
+	
+	// an array to save the moves for AI
+	private int[] moves = new int[400];
+	
+	// save the position of x, y after the 150th shuffle to backtrack in AI
+	int xfinal;
+	int yfinal;
 
 	public int boardSize;
 
@@ -40,6 +50,40 @@ public class BoardConfig {
 		grid[x][y] = grid[x + 1][y];
 		grid[x + 1][y] = temp;
 	}
+	
+
+	// swap tiles in AI
+	private void swapUp2(int x, int y) {
+		int temp;
+		temp = grid2[x][y];
+		grid2[x][y] = grid2[x][y - 1];
+		grid2[x][y - 1] = temp;
+	}
+
+	// swap tiles in AI
+	private void swapDown2(int x, int y) {
+		int temp;
+		temp = grid2[x][y];
+		grid2[x][y] = grid2[x][y + 1];
+		grid2[x][y + 1] = temp;
+	}
+
+	// swap tiles in AI
+	private void swapLeft2(int x, int y) {
+		int temp;
+		temp = grid2[x][y];
+		grid2[x][y] = grid2[x - 1][y];
+		grid2[x - 1][y] = temp;
+	}
+
+	// swap tiles in AI
+	private void swapRight2(int x, int y) {
+		int temp;
+		temp = grid2[x][y];
+		grid2[x][y] = grid2[x + 1][y];
+		grid2[x + 1][y] = temp;
+	}
+
 
 	// randomly select a direction that is possible to swap the blank tile
 	private int swapDirection(int x, int y) {
@@ -82,12 +126,15 @@ public class BoardConfig {
 		x = boardSize - 1;
 		y = boardSize - 1;
 
-		// swap the tiles 150 times
+		// swap the tiles 400 times
 		for (int i = 0; i < 400; i++) {
 			// get a random direction to swap
 			j = swapDirection(x, y);
 
-			// swap according the the direction given
+			// save the move for AI
+			moves[i] = j;
+			
+			// swap according the direction given
 			// also adjust position of the blank tile accordingly
 			switch (j) {
 			case 0:
@@ -107,7 +154,51 @@ public class BoardConfig {
 				y -= 1;
 			}
 		}
+		
+		// save the current x, y position
+		xfinal = x;
+		yfinal = y;
+		for(x = 0;x<5;x++)
+			for(y = 0; y<5;y++)
+				grid2[x][y]=grid[x][y];
 	}
+	
+	// for solving the AI board
+	public void solveAI(int i) {
+		int j, x, y;
+		
+		// retrieve the current position of x , y 
+		x = xfinal;
+		y = yfinal;
+
+		
+		j = moves[i];		
+
+			// swap according the the direction given
+			// also adjust position of the blank tile accordingly
+			switch (j) {
+			case 0:
+				swapLeft2(x, y);
+				x -= 1;				
+				break;
+			case 1:
+				swapUp2(x, y);
+				y -=1;
+				break;
+			case 2:
+				swapRight2(x, y);
+				x += 1;
+				break;
+			case 3:
+				swapDown2(x, y);
+				y += 1;
+			}
+			
+			//save the current x , y
+			xfinal = x;
+			yfinal = y;
+	}
+
 
 	public void doClick(int x, int y) {
 		// if the spot clicked is to the left of the blank swap left
@@ -132,10 +223,24 @@ public class BoardConfig {
 		if (y <= boardSize - 1 && y >= 0 && x >= 0 && x <= boardSize - 1)
 			grid[x][y] = val;
 	}
+	
+	// set grid for AI board
+	public void setGrid2(int x, int y, int val) {
+		if (y <= boardSize - 1 && y >= 0 && x >= 0 && x <= boardSize - 1)
+			grid2[x][y] = val;
+	}
 
 	public int getGrid(int x, int y) {
 		if (y <= boardSize - 1 && y >= 0 && x >= 0 && x <= boardSize - 1)
 			return grid[x][y];
+		else
+			return -1;
+	}
+	
+	// get grid for AI board
+	public int getGrid2(int x, int y) {
+		if (y <= boardSize - 1 && y >= 0 && x >= 0 && x <= boardSize - 1)
+			return grid2[x][y];
 		else
 			return -1;
 	}

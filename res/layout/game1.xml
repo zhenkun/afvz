@@ -50,13 +50,16 @@
 	</TableLayout>
 
 	<LinearLayout android:layout_width="wrap_content" android:id="@+id/linearLayout1" android:gravity="center" android:layout_gravity="center" android:orientation="vertical" android:layout_weight="0.09" android:layout_height="484dp">
-    <LinearLayout android:layout_width="wrap_content" android:id="@+id/linearLayout2" android:gravity="center" android:layout_gravity="center" android:orientation="vertical" android:layout_height="180dp">
-        <RadioButton android:text="3x3" android:id="@+id/radioBtn1" android:layout_width="100dp" android:layout_height="wrap_content"></RadioButton>
-        <RadioButton android:text="4x4" android:id="@+id/radioBtn2" android:layout_width="100dp" android:layout_height="wrap_content"></RadioButton>
-        <RadioButton android:text="5x5" android:id="@+id/radioBtn3" android:layout_width="100dp" android:layout_height="wrap_content"></RadioButton>
-    </LinearLayout>
+
+	<RadioGroup android:layout_width="fill_parent" android:gravity="center"
+		android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/RBGroup1">
+        <RadioButton android:checked="false" android:id="@+id/rBtn2x2" android:text="2x2" android:layout_width="100dp"/>
+		<RadioButton android:checked="false" android:id="@+id/rBtn3x3" android:text="3x3" android:layout_width="100dp"/>
+		<RadioButton android:checked="false" android:id="@+id/rBtn4x4" android:text="4x4" android:layout_width="100dp"/>
+        <RadioButton android:checked="true"  android:id="@+id/rBtn5x5" android:text="5x5" android:layout_width="100dp"/>
+	</RadioGroup>
     
-    <Button android:text="AI Mode" android:id="@+id/gm2_btn_AI" android:layout_gravity="center" android:layout_height="wrap_content" android:layout_width="130dp"></Button>    
+    <Button android:text="Play with Computer" android:id="@+id/gm2_btn_AI" android:layout_gravity="center" android:layout_height="wrap_content" android:layout_width="130dp"></Button>    
     <Button android:text="New Game" android:id="@+id/gm1_btn_new" android:layout_gravity="center|bottom" android:layout_width="130dp" android:layout_height="wrap_content"></Button>
 </LinearLayout>
 </LinearLayout>

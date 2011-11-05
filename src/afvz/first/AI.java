@@ -6,20 +6,31 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.Toast;
+import android.os.CountDownTimer;
+import android.widget.TextView;
 
-public class Game1 extends Activity {
+
+
+
+public class AI extends Activity {
 
 	BoardConfig board = new BoardConfig();
-
+	
+	// a variable for canceling the timer when the board is solved
+	boolean solved = false;
+	
+	TextView tv;
+	
 	// array of the buttons to access them directly
 	private Button[][] buttons = new Button[5][5];
-	private RadioButton rb2, rb3, rb4, rb5;
+
+	// array of the AI buttons to access them directly
+	private Button[][] aiButtons = new Button[5][5]; 
 	
 	public Integer boardsize = 5;
 
@@ -32,6 +43,15 @@ public class Game1 extends Activity {
 		R.drawable.btn21, R.drawable.btn22, R.drawable.btn23, R.drawable.btn24, 
 	};
 	
+	// all AI button resources
+	private Integer[] btn_res_id2 = {
+		R.drawable.btn_1, R.drawable.btn_2, R.drawable.btn_3, R.drawable.btn_4, R.drawable.btn_5,
+		R.drawable.btn_6, R.drawable.btn_7, R.drawable.btn_8, R.drawable.btn_9, R.drawable.btn_10,
+		R.drawable.btn_11, R.drawable.btn_12, R.drawable.btn_13, R.drawable.btn_14, R.drawable.btn_15,
+		R.drawable.btn_16, R.drawable.btn_17, R.drawable.btn_18, R.drawable.btn_19, R.drawable.btn_20,
+		R.drawable.btn_21, R.drawable.btn_22, R.drawable.btn_23, R.drawable.btn_24, 			
+	};
+	
 	// all buttons in the layout
 	private Integer[][] btn_id = {
 		{ R.id.gm1_btn1, R.id.gm1_btn2, R.id.gm1_btn3, R.id.gm1_btn4, R.id.gm1_btn5} ,
@@ -41,51 +61,15 @@ public class Game1 extends Activity {
 		{ R.id.gm1_btn21, R.id.gm1_btn22, R.id.gm1_btn23, R.id.gm1_btn24, R.id.gm1_btn25}
 	};
 	
-	private void bindRBonClick()
-	{
-		rb2 = (RadioButton) findViewById(R.id.rBtn2x2);
-		rb3 = (RadioButton) findViewById(R.id.rBtn3x3);
-		rb4 = (RadioButton) findViewById(R.id.rBtn4x4);
-		rb5 = (RadioButton) findViewById(R.id.rBtn5x5);
-
-		rb2.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				if(boardsize != 2) {
-					boardsize = 2;
-				set_board_size(2);
-				setupTiles();
-				}
-			}
-		});
-		
-		rb3.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				if(boardsize != 3) {
-					boardsize = 3;
-				set_board_size(3);
-				setupTiles();
-				}
-			}
-		});
-		rb4.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				if(boardsize != 4) {
-					boardsize = 4;
-				set_board_size(4);
-				setupTiles();
-				}
-			}
-		});
-		rb5.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				if(boardsize != 5) {
-					boardsize = 5;
-				set_board_size(5);
-				setupTiles();
-				}
-			}
-		});
-	}
+	// all buttons in the layout
+	private Integer[][] btn_id2 = {
+		{ R.id.ai_btn1, R.id.ai_btn2, R.id.ai_btn3, R.id.ai_btn4, R.id.ai_btn5} ,
+		{ R.id.ai_btn6, R.id.ai_btn7, R.id.ai_btn8, R.id.ai_btn9, R.id.ai_btn10} ,
+		{ R.id.ai_btn11, R.id.ai_btn12, R.id.ai_btn13, R.id.ai_btn14, R.id.ai_btn15} ,
+		{ R.id.ai_btn16, R.id.ai_btn17, R.id.ai_btn18, R.id.ai_btn19, R.id.ai_btn20} ,
+		{ R.id.ai_btn21, R.id.ai_btn22, R.id.ai_btn23, R.id.ai_btn24, R.id.ai_btn25}
+	};
+	
 	
 	private void play_sound()
 	{
@@ -100,13 +84,7 @@ public class Game1 extends Activity {
 				buttons[i][j].setEnabled(false);
 	}
 	
-	// when the game is done, freeze the board, let user to start a new one
-	private void active_board()	{
-		for(int i=0; i<5; i++)
-			for(int j=0; j<5; j++)
-				buttons[i][j].setEnabled(true);
-	}
-	
+
 	// display the current state of the buttons
 	private void displayGrid() {
 		// i is row index and j is column index
@@ -122,12 +100,32 @@ public class Game1 extends Activity {
 			}
 		}
 		play_sound();
-		if(isBoardValid()) {
-			Toast.makeText(Game1.this, "You Win", Toast.LENGTH_SHORT).show();
+		if(isBoardValid()){ 
+			Toast.makeText(AI.this, "You Win", Toast.LENGTH_SHORT).show();
+			solved = true;
 			freeze_board();
+		}
+
+	}
+	
+	// display the current state of the buttons in AI
+	private void displayGrid2() {
+		// i is row index and j is column index
+		// indexing origin is top left corner
+		// loop through all buttons
+		for (int i = 0; i < boardsize; i++) {
+			for (int j = 0; j < boardsize; j++) {
+				int val = board.getGrid2(i, j);
+				if ((val > numType.ZERO) && (val <= numType.TWENTYFOUR))
+					aiButtons[i][j].setBackgroundResource(btn_res_id2[val-1]);
+				else if (val == numType.BLANKTILE)
+					aiButtons[i][j].setBackgroundColor(Color.BLACK);
+			}
 		}
 	}
 	
+	
+
 	public Boolean isBoardValid()
 	{
 		int val;
@@ -165,12 +163,15 @@ public class Game1 extends Activity {
 		}
 		board.setGrid(boardsize-1, boardsize-1, numType.BLANKTILE);
 	}
-
+	
+	
 	// setup the values for the tiles
 	private void setupTiles() {
 		initializeBoard(); 		// generate a good board
 		board.randomizeTiles(); // swap tiles around
 		displayGrid();			// display tiles
+		displayGrid2();			//display tiles of AI
+		 
 	}
 
 	// bind buttons in an array so they are easy to access
@@ -178,6 +179,13 @@ public class Game1 extends Activity {
 		for(int i=0; i<5; i++)
 			for(int j=0; j<5; j++)
 				buttons[i][j] = (Button) this.findViewById(btn_id[i][j]);
+	}
+	
+	// bind buttons of AI in an array so they are easy to access
+	private void bindButtons2() {
+		for(int i=0; i<5; i++)
+			for(int j=0; j<5; j++)
+				aiButtons[i][j] = (Button) this.findViewById(btn_id2[i][j]);
 	}
 
 	// bind row of buttons click events
@@ -188,29 +196,31 @@ public class Game1 extends Activity {
 		bindRow(2);
 		bindRow(3);
 		bindRow(4);
-		bindRBonClick();	// bind the radio buttons
 		
-		// New game button, randomly shuffle the tiles, active the board
-		Button btn_new_game = (Button) this.findViewById(R.id.gm1_btn_new);
-		btn_new_game.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				setupTiles();
-				active_board();
-			}
-		});
-		
-		// show AI if the AI button clicked
-        Button btn_aigame = (Button) this.findViewById(R.id.gm2_btn_AI);
-		btn_aigame.setOnClickListener(new OnClickListener() {
+        final Button btn_newAIGame = (Button) findViewById(R.id.btn_newAIGame);
+        //btn_newAIGame.setBackgroundResource(R.drawable.newaigame);
+        btn_newAIGame.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 // Perform action on clicks
-            	Intent intent = new Intent(Game1.this, AI.class);
+                Toast.makeText(AI.this, "New Game", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(AI.this, AI.class);
+                startActivity(intent);
+            }
+        });
+        
+        final Button btn_newNGame = (Button) findViewById(R.id.btn_newGame);
+        btn_newNGame.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on clicks
+                Intent intent = new Intent(AI.this, Game1.class);
                 startActivity(intent);
             }
         });
 
 	}
-	
+
+
 	// bind a row of buttons on click events
 	private void bindRow(final int i) {
 		// setup so it passes in its row and 0th position on that row
@@ -254,39 +264,6 @@ public class Game1 extends Activity {
 		});
 	}
 
-	private void set_board_size(int size) {
-		boardsize = size;
-		board.boardSize = size;
-		
-		// first reset all of them to visible
-		for (int i = 0; i < 5; i++)
-			for (int j = 0; j < 5; j++)
-				buttons[i][j].setVisibility(View.VISIBLE);
-		
-		switch (size) {
-		case 2:
-			for (int i = 0; i < 3; i++) {
-				buttons[2][i].setVisibility(View.INVISIBLE);
-				buttons[i][2].setVisibility(View.INVISIBLE);
-			}
-		case 3:
-			for (int i = 0; i < 4; i++) {
-				buttons[3][i].setVisibility(View.INVISIBLE);
-				buttons[i][3].setVisibility(View.INVISIBLE);
-			}
-		case 4:
-			for (int i = 0; i < 5; i++) {
-				buttons[4][i].setVisibility(View.INVISIBLE);
-				buttons[i][4].setVisibility(View.INVISIBLE);
-			}
-			break;
-		default:
-			boardsize = 5;
-			board.boardSize = 5;
-			break;
-		}
-	}
-	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -294,12 +271,65 @@ public class Game1 extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.game1);
+		setContentView(R.layout.ai);
+		board.boardSize = 5;
+		
+		tv = (TextView)this.findViewById(R.id.TextView1);
+
 		
 		bindButtons(); 	// bind the buttons into an array
+		bindButtons2();	// bind the AI buttons into an array
 		bindOnClicks(); // bind their onClick events
-		set_board_size(5);
 		setupTiles(); 	// setup the grid of tiles
-		
+
+		// for implementation of AI
+		new CountDownTimer(3000, 1000) {
+			 
+		     public void onTick(long millisUntilFinished) {
+		    	 
+		     }
+
+		     public void onFinish() {
+	    	 
+				 //new CountDownTimer(23600, 100) {
+		    	 //new CountDownTimer(156000, 1000) {
+		    	 new CountDownTimer(417000, 1000) {
+		    	
+		    		 
+						// i is total number of shuffles that we made and we want to backtrack in AI
+						 int i = 399;
+						 
+						 
+					     public void onTick(long millisUntilFinished) {
+					    	 // call solveAI method to go back one step each time on AI 
+					    	 
+					    	 if(solved)
+					    		 this.cancel();
+					    		 
+					    	 else if (i> -1)
+					    	 {	
+					    		 board.solveAI(i);
+					    	 	 i -=1;
+					    	 	tv.setText("" + millisUntilFinished / 1000);
+					    	 }
+					    	 
+					    	 // show the AI after backtracking one step
+					    	 displayGrid2();
+					     }
+
+					     public void onFinish() {
+					    	 if(!solved)
+					    	 {
+						    	tv.setText("0");
+						 		if(!isBoardValid()) 
+									Toast.makeText(AI.this, "You Loose", Toast.LENGTH_SHORT).show();
+						 		freeze_board();
+					    	 }
+					 				
+					     }
+					  }.start();	    	 
+		     }
+		  }.start();	
+
 	}
 }
