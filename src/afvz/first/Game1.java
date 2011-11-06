@@ -54,6 +54,7 @@ public class Game1 extends Activity {
 					boardsize = 2;
 				set_board_size(2);
 				setupTiles();
+				AI.size = 2;
 				}
 			}
 		});
@@ -64,6 +65,7 @@ public class Game1 extends Activity {
 					boardsize = 3;
 				set_board_size(3);
 				setupTiles();
+				AI.size = 3;
 				}
 			}
 		});
@@ -73,6 +75,7 @@ public class Game1 extends Activity {
 					boardsize = 4;
 				set_board_size(4);
 				setupTiles();
+				AI.size = 4;
 				}
 			}
 		});
@@ -82,6 +85,7 @@ public class Game1 extends Activity {
 					boardsize = 5;
 				set_board_size(5);
 				setupTiles();
+				AI.size = 5;
 				}
 			}
 		});
@@ -121,7 +125,7 @@ public class Game1 extends Activity {
 					buttons[i][j].setBackgroundColor(Color.BLACK);
 			}
 		}
-		
+		play_sound();
 		if(isBoardValid()) {
 			Toast.makeText(Game1.this, "You Win", Toast.LENGTH_SHORT).show();
 			freeze_board();
@@ -218,7 +222,6 @@ public class Game1 extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 0);
 				displayGrid();
-				play_sound();
 			}
 		});
 
@@ -227,7 +230,6 @@ public class Game1 extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 1);
 				displayGrid();
-				play_sound();
 			}
 		});
 
@@ -236,7 +238,6 @@ public class Game1 extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 2);
 				displayGrid();
-				play_sound();
 			}
 		});
 
@@ -245,7 +246,6 @@ public class Game1 extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 3);
 				displayGrid();
-				play_sound();
 			}
 		});
 
@@ -254,7 +254,6 @@ public class Game1 extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 4);
 				displayGrid();
-				play_sound();
 			}
 		});
 	}
@@ -300,10 +299,12 @@ public class Game1 extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.game1);
-		
+		board.shuffleSize = 400;
+	 	board.moves = new int[board.shuffleSize];
 		bindButtons(); 	// bind the buttons into an array
 		bindOnClicks(); // bind their onClick events
 		set_board_size(5);
+		AI.size = 5;
 		setupTiles(); 	// setup the grid of tiles
 		
 	}

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android" android:weightSum="1">
-        <LinearLayout android:id="@+id/linearLayout2" android:orientation="vertical" android:weightSum="1" android:layout_height="624dp" android:layout_width="508dp">
+     <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android" android:weightSum="1">
+        <LinearLayout android:id="@+id/linearLayout2" android:orientation="vertical" android:weightSum="1" android:layout_width="508dp" android:layout_marginLeft="20sp" android:layout_height="match_parent" android:layout_weight="0.12">
         	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
 				android:layout_gravity="center" android:gravity="left"
 				android:stretchColumns="0,2" android:layout_width="500dip"
-				android:layout_height="500dip" android:layout_marginLeft="100sp" android:layout_marginRight="100sp" android:layout_marginTop="10sp">
+				android:layout_height="500dip" android:layout_marginLeft="110sp" android:layout_marginRight="100sp" android:layout_marginTop="10sp">
 				<TableRow>
 					<Button android:id="@+id/gm1_btn1" android:layout_width="100dp"
 						android:layout_height="100dp"></Button>
@@ -80,77 +80,77 @@
         <LinearLayout android:id="@+id/linearLayout3" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent" android:weightSum="1" android:layout_weight="0.38">
         		<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
 					android:layout_gravity="center" android:gravity="right"
-					android:stretchColumns="0,2" android:layout_width="500dip"
-					android:layout_height="500dip" android:layout_marginTop="10sp">
+					android:stretchColumns="0,2" android:layout_width="300dip"
+					android:layout_height="300dip" android:layout_marginLeft="30sp" android:layout_marginTop="80sp">
 					<TableRow>
-						<Button android:id="@+id/ai_btn1" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn2" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn3" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn4" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn5" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
+						<Button android:id="@+id/ai_btn1" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn2" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn3" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn4" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn5" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
 					</TableRow>
 			
 					<TableRow>
-						<Button android:id="@+id/ai_btn6" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn7" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn8" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn9" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn10" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
+						<Button android:id="@+id/ai_btn6" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn7" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn8" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn9" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn10" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
 					</TableRow>
 			
 					<TableRow>
-						<Button android:id="@+id/ai_btn11" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn12" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn13" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn14" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn15" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
+						<Button android:id="@+id/ai_btn11" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn12" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn13" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn14" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn15" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
 					</TableRow>
 			
 					<TableRow>
-						<Button android:id="@+id/ai_btn16" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn17" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn18" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn19" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn20" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
+						<Button android:id="@+id/ai_btn16" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn17" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn18" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn19" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn20" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
 					</TableRow>
 			
 					<TableRow>
-						<Button android:id="@+id/ai_btn21" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn22" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn23" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn24" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
-						<Button android:id="@+id/ai_btn25" android:layout_width="100dp"
-							android:layout_height="100dp"></Button>
+						<Button android:id="@+id/ai_btn21" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn22" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn23" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn24" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
+						<Button android:id="@+id/ai_btn25" android:layout_width="60dp"
+							android:layout_height="60dp"></Button>
 					</TableRow>
 			
 				</TableLayout>
-        		<LinearLayout android:id="@+id/linearLayout4" android:layout_height="wrap_content" android:layout_width="match_parent" android:layout_weight="0.43" android:weightSum="1">
-        			<Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="Normal Mode" android:id="@+id/btn_newGame" android:layout_marginLeft="200sp"></Button>
-        			<Button android:layout_height="wrap_content" android:layout_weight="0.06" android:layout_width="wrap_content" android:text="New Game" android:id="@+id/btn_newAIGame"></Button>
+        		<LinearLayout android:id="@+id/linearLayout4" android:layout_height="wrap_content" android:weightSum="1" android:layout_weight="0.25" android:layout_width="match_parent">
+        			<Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="Normal Mode" android:id="@+id/btn_newGame" android:layout_marginLeft="100sp" android:layout_marginTop="40sp"></Button>
+        			<Button android:layout_height="wrap_content" android:layout_weight="0.06" android:layout_width="wrap_content" android:text="New Game" android:id="@+id/btn_newAIGame" android:layout_marginTop="40sp"></Button>
         		</LinearLayout>
 			        		
 		        

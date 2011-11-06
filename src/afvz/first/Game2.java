@@ -689,6 +689,8 @@ public class Game2 extends Activity {
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.game2);
         
+		board.shuffleSize = 400;
+	 	board.moves = new int[board.shuffleSize];
         board.boardSize = 5;
         
        startGame();

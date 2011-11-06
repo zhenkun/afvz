@@ -10,8 +10,10 @@ public class BoardConfig {
 	// grid which keeps track of current states in AI
 	private int[][] grid2 = new int[5][5];
 	
+	public int shuffleSize;
+	
 	// an array to save the moves for AI
-	private int[] moves = new int[400];
+	public int[] moves;
 	
 	// save the position of x, y after the 150th shuffle to backtrack in AI
 	int xfinal;
@@ -175,7 +177,7 @@ public class BoardConfig {
 		y = boardSize - 1;
 
 		// swap the tiles 400 times
-		for (int i = 0; i < 400; i++) {
+		for (int i = 0; i < shuffleSize; i++) {
 			// get a random direction to swap
 			j = swapDirection(x, y);
 

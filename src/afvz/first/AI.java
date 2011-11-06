@@ -15,8 +15,6 @@ import android.os.CountDownTimer;
 import android.widget.TextView;
 
 
-
-
 public class AI extends Activity {
 
 	BoardConfig board = new BoardConfig();
@@ -25,6 +23,9 @@ public class AI extends Activity {
 	boolean solved = false;
 	
 	TextView tv;
+	
+	// for setting the size of boards
+	static int size;
 	
 	// array of the buttons to access them directly
 	private Button[][] buttons = new Button[5][5];
@@ -99,6 +100,7 @@ public class AI extends Activity {
 					buttons[i][j].setBackgroundColor(Color.BLACK);
 			}
 		}
+		play_sound();
 		if(isBoardValid()){ 
 			Toast.makeText(AI.this, "You Win", Toast.LENGTH_SHORT).show();
 			solved = true;
@@ -227,7 +229,6 @@ public class AI extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 0);
 				displayGrid();
-				play_sound();
 			}
 		});
 
@@ -236,7 +237,6 @@ public class AI extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 1);
 				displayGrid();
-				play_sound();
 			}
 		});
 
@@ -245,7 +245,6 @@ public class AI extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 2);
 				displayGrid();
-				play_sound();
 			}
 		});
 
@@ -254,7 +253,6 @@ public class AI extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 3);
 				displayGrid();
-				play_sound();
 			}
 		});
 
@@ -263,9 +261,61 @@ public class AI extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 4);
 				displayGrid();
-				play_sound();
 			}
 		});
+	}
+	
+	
+	
+	public void set_board_size(int size) {
+		boardsize = size;
+		board.boardSize = size;
+		
+		// first reset all of them to visible
+		for (int i = 0; i < 5; i++)
+			for (int j = 0; j < 5; j++)
+				{
+				buttons[i][j].setVisibility(View.VISIBLE);
+				aiButtons[i][j].setVisibility(View.VISIBLE);
+				}
+				
+		
+		switch (size) {
+		case 2:
+			for (int i = 0; i < 3; i++) {
+				buttons[2][i].setVisibility(View.INVISIBLE);
+				buttons[i][2].setVisibility(View.INVISIBLE);
+				aiButtons[2][i].setVisibility(View.INVISIBLE);
+				aiButtons[i][2].setVisibility(View.INVISIBLE);
+				//board.shuffleSize = 8;
+				//board.moves = new int[board.shuffleSize];
+			}
+		case 3:
+			for (int i = 0; i < 4; i++) {
+				buttons[3][i].setVisibility(View.INVISIBLE);
+				buttons[i][3].setVisibility(View.INVISIBLE);
+				aiButtons[3][i].setVisibility(View.INVISIBLE);
+				aiButtons[i][3].setVisibility(View.INVISIBLE);
+				//board.shuffleSize = 150;
+				//board.moves = new int[board.shuffleSize];
+			}
+		case 4:
+			for (int i = 0; i < 5; i++) {
+				buttons[4][i].setVisibility(View.INVISIBLE);
+				buttons[i][4].setVisibility(View.INVISIBLE);
+				aiButtons[4][i].setVisibility(View.INVISIBLE);
+				aiButtons[i][4].setVisibility(View.INVISIBLE);
+				//board.shuffleSize = 250;
+				//board.moves = new int[board.shuffleSize];
+			}
+			break;
+		default:
+			boardsize = 5;
+			board.boardSize = 5;
+			//board.shuffleSize = 400;
+			//board.moves = new int[board.shuffleSize];
+			break;
+		}
 	}
 
 	/** Called when the activity is first created. */
@@ -284,10 +334,32 @@ public class AI extends Activity {
 		bindButtons(); 	// bind the buttons into an array
 		bindButtons2();	// bind the AI buttons into an array
 		bindOnClicks(); // bind their onClick events
+		set_board_size(size);
+		
+		
+   	 	if(board.boardSize == 5){
+   	 		board.shuffleSize = 400;
+   	 		board.moves = new int[board.shuffleSize];}
+   	 	else if(board.boardSize == 4){
+   	 		board.shuffleSize = 250;
+   	 		board.moves = new int[board.shuffleSize];
+   	 	}
+   	 	else if(board.boardSize == 3){
+   	 		board.shuffleSize = 150;
+   	 		board.moves = new int[board.shuffleSize];
+   	 	}
+   	 	else if(board.boardSize == 2){
+   	 		board.shuffleSize = 8;
+   	 		board.moves = new int[board.shuffleSize];
+   	 	}
+		
 		setupTiles(); 	// setup the grid of tiles
-
+		
+		
+		 
 		// for implementation of AI
 		new CountDownTimer(3000, 1000) {
+			int totalTime = 0;
 			 
 		     public void onTick(long millisUntilFinished) {
 		    	 
@@ -297,13 +369,22 @@ public class AI extends Activity {
 	    	 
 				 //new CountDownTimer(23600, 100) {
 		    	 //new CountDownTimer(156000, 1000) {
-		    	 new CountDownTimer(417000, 1000) {
+		    	 if(board.boardSize == 5)
+		    		 totalTime = 417000;
+		    	 else if(board.boardSize == 4)
+		    		 totalTime = 262000;
+		    	 else if(board.boardSize == 3)
+		    		 totalTime = 158000;    		 
+		    	 else if(board.boardSize == 2)
+		    		 totalTime = 10000;
+		    		 
+		    	 
+		    	 new CountDownTimer(totalTime, 1000) {
 		    	
 		    		 
 						// i is total number of shuffles that we made and we want to backtrack in AI
-						 int i = 399;
-						 
-						 
+						int i = board.shuffleSize - 1;
+												 
 					     public void onTick(long millisUntilFinished) {
 					    	 // call solveAI method to go back one step each time on AI 
 					    	 
@@ -314,8 +395,10 @@ public class AI extends Activity {
 					    	 {	
 					    		 board.solveAI(i);
 					    	 	 i -=1;
-					    	 	//tv.setText("" + millisUntilFinished / 1000);
 					    	 }
+					    	 // to count down until the player solve the game or times up 
+					    	 if(!solved)
+					    		 tv.setText("" + millisUntilFinished / 1000);
 					    	 
 					    	 // show the AI after backtracking one step
 					    	 displayGrid2();
