@@ -100,7 +100,7 @@ public class AI extends Activity {
 					buttons[i][j].setBackgroundColor(Color.BLACK);
 			}
 		}
-		play_sound();
+		
 		if(isBoardValid()){ 
 			Toast.makeText(AI.this, "You Win", Toast.LENGTH_SHORT).show();
 			solved = true;
@@ -202,8 +202,7 @@ public class AI extends Activity {
         //btn_newAIGame.setBackgroundResource(R.drawable.newaigame);
         btn_newAIGame.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                // Perform action on clicks
-                Toast.makeText(AI.this, "New Game", Toast.LENGTH_SHORT).show();
+                // Perform action on click
 
                 Intent intent = new Intent(AI.this, AI.class);
                 startActivity(intent);
@@ -229,6 +228,7 @@ public class AI extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 0);
 				displayGrid();
+				play_sound();
 			}
 		});
 
@@ -237,6 +237,7 @@ public class AI extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 1);
 				displayGrid();
+				play_sound();
 			}
 		});
 
@@ -245,6 +246,7 @@ public class AI extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 2);
 				displayGrid();
+				play_sound();
 			}
 		});
 
@@ -253,6 +255,7 @@ public class AI extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 3);
 				displayGrid();
+				play_sound();
 			}
 		});
 
@@ -261,6 +264,7 @@ public class AI extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 4);
 				displayGrid();
+				play_sound();
 			}
 		});
 	}
@@ -398,7 +402,7 @@ public class AI extends Activity {
 					    	 }
 					    	 // to count down until the player solve the game or times up 
 					    	 if(!solved)
-					    		 tv.setText("" + millisUntilFinished / 1000);
+					    		// tv.setText("" + millisUntilFinished / 1000);
 					    	 
 					    	 // show the AI after backtracking one step
 					    	 displayGrid2();
@@ -409,7 +413,7 @@ public class AI extends Activity {
 					    	 {
 						    	tv.setText("0");
 						 		if(!isBoardValid()) 
-									Toast.makeText(AI.this, "You Loose", Toast.LENGTH_SHORT).show();
+									Toast.makeText(AI.this, "You Lose", Toast.LENGTH_SHORT).show();
 						 		freeze_board();
 					    	 }
 					 				

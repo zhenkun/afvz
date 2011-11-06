@@ -48,7 +48,7 @@ public class BoardConfig {
 	private boolean isRight(int x, int y)
 	{
 		boolean flag = false;
-		int i, j;
+		int i;
 		
 		for(i = x; i < boardSize; i++)
 			if(grid[i][y] == numType.BLANKTILE)

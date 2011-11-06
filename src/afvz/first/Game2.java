@@ -94,8 +94,8 @@ public class Game2 extends Activity {
 			
 			if(getGridVal(1) == numType.EQUALSIGN)
 			{
-				num1 = getGridVal(2);
-				num2 = getGridVal(4);
+				num1 = getGridVal(4);
+				num2 = getGridVal(2);
 				val = getGridVal(0);
 				op = getGridVal(3);
 			}
@@ -135,8 +135,8 @@ public class Game2 extends Activity {
 		
 		if(getGridVal(1) == numType.EQUALSIGN)
 		{
-			num1 = getGridVal(2);
-			num2 = getGridVal(4);
+			num1 = getGridVal(4);
+			num2 = getGridVal(2);
 			val = getGridVal(0);
 			op = getGridVal(3);
 		}
@@ -196,8 +196,8 @@ public class Game2 extends Activity {
 		{
 			if(getGridVal(1) == numType.EQUALSIGN)
 			{
-				num1 = getGridVal(2);
-				num2 = getGridVal(4);
+				num1 = getGridVal(4);
+				num2 = getGridVal(2);
 				op = getGridVal(3);
 			}
 			
