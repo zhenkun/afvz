@@ -99,7 +99,6 @@ public class AI extends Activity {
 					buttons[i][j].setBackgroundColor(Color.BLACK);
 			}
 		}
-		play_sound();
 		if(isBoardValid()){ 
 			Toast.makeText(AI.this, "You Win", Toast.LENGTH_SHORT).show();
 			solved = true;
@@ -228,6 +227,7 @@ public class AI extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 0);
 				displayGrid();
+				play_sound();
 			}
 		});
 
@@ -236,6 +236,7 @@ public class AI extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 1);
 				displayGrid();
+				play_sound();
 			}
 		});
 
@@ -244,6 +245,7 @@ public class AI extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 2);
 				displayGrid();
+				play_sound();
 			}
 		});
 
@@ -252,6 +254,7 @@ public class AI extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 3);
 				displayGrid();
+				play_sound();
 			}
 		});
 
@@ -260,6 +263,7 @@ public class AI extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 4);
 				displayGrid();
+				play_sound();
 			}
 		});
 	}
@@ -310,7 +314,7 @@ public class AI extends Activity {
 					    	 {	
 					    		 board.solveAI(i);
 					    	 	 i -=1;
-					    	 	tv.setText("" + millisUntilFinished / 1000);
+					    	 	//tv.setText("" + millisUntilFinished / 1000);
 					    	 }
 					    	 
 					    	 // show the AI after backtracking one step

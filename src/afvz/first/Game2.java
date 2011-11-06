@@ -4,6 +4,7 @@ import java.util.Random;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,12 +23,19 @@ public class Game2 extends Activity {
 	
 	// array of the buttons to access them directly
 	private Button[][] buttons;
+	private Button newGame;
 	private int equationTouched[];
 	private int solvedEquations[][];
 	private int countTouched;
 	private int countSolved;
 	private int score;
 	private float downX, downY;
+	
+	private void play_sound()
+	{
+		MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.sound);
+		mediaPlayer.start();
+	}
 	
 	private String showEquation(int i)
 	{
@@ -438,47 +446,53 @@ public class Game2 extends Activity {
 	// bind buttons in an array so they are easy to access
 	private void bindButtons()
 	{
-		buttons = new Button[5][5];
+		newGame = (Button)this.findViewById(R.id.newGame);
 		
 		// top row of buttons
 		buttons[0][0] = (Button)this.findViewById(R.id.button1);
-		buttons[0][1] = (Button)this.findViewById(R.id.button2);
-		buttons[0][2] = (Button)this.findViewById(R.id.button3);
-		buttons[0][3] = (Button)this.findViewById(R.id.button4);
-		buttons[0][4] = (Button)this.findViewById(R.id.button5);
+		buttons[1][0] = (Button)this.findViewById(R.id.button2);
+		buttons[2][0] = (Button)this.findViewById(R.id.button3);
+		buttons[3][0] = (Button)this.findViewById(R.id.button4);
+		buttons[4][0] = (Button)this.findViewById(R.id.button5);
 		
 		// 2nd row of buttons
-		buttons[1][0] = (Button)this.findViewById(R.id.button6);
+		buttons[0][1] = (Button)this.findViewById(R.id.button6);
 		buttons[1][1] = (Button)this.findViewById(R.id.button7);
-		buttons[1][2] = (Button)this.findViewById(R.id.button8);
-		buttons[1][3] = (Button)this.findViewById(R.id.button9);
-		buttons[1][4] = (Button)this.findViewById(R.id.button10);
+		buttons[2][1] = (Button)this.findViewById(R.id.button8);
+		buttons[3][1] = (Button)this.findViewById(R.id.button9);
+		buttons[4][1] = (Button)this.findViewById(R.id.button10);
 		
 		// 3rd row of buttons
-		buttons[2][0] = (Button)this.findViewById(R.id.button11);
-		buttons[2][1] = (Button)this.findViewById(R.id.button12);
+		buttons[0][2] = (Button)this.findViewById(R.id.button11);
+		buttons[1][2] = (Button)this.findViewById(R.id.button12);
 		buttons[2][2] = (Button)this.findViewById(R.id.button13);
-		buttons[2][3] = (Button)this.findViewById(R.id.button14);
-		buttons[2][4] = (Button)this.findViewById(R.id.button15);
+		buttons[3][2] = (Button)this.findViewById(R.id.button14);
+		buttons[4][2] = (Button)this.findViewById(R.id.button15);
 		
 		// 4th row of buttons
-		buttons[3][0] = (Button)this.findViewById(R.id.button16);
-		buttons[3][1] = (Button)this.findViewById(R.id.button17);
-		buttons[3][2] = (Button)this.findViewById(R.id.button18);
+		buttons[0][3] = (Button)this.findViewById(R.id.button16);
+		buttons[1][3] = (Button)this.findViewById(R.id.button17);
+		buttons[2][3] = (Button)this.findViewById(R.id.button18);
 		buttons[3][3] = (Button)this.findViewById(R.id.button19);
-		buttons[3][4] = (Button)this.findViewById(R.id.button20);
+		buttons[4][3] = (Button)this.findViewById(R.id.button20);
 		
 		// 5th row of buttons
-		buttons[4][0] = (Button)this.findViewById(R.id.button21);
-		buttons[4][1] = (Button)this.findViewById(R.id.button22);
-		buttons[4][2] = (Button)this.findViewById(R.id.button23);
-		buttons[4][3] = (Button)this.findViewById(R.id.button24);
+		buttons[0][4] = (Button)this.findViewById(R.id.button21);
+		buttons[1][4] = (Button)this.findViewById(R.id.button22);
+		buttons[2][4] = (Button)this.findViewById(R.id.button23);
+		buttons[3][4] = (Button)this.findViewById(R.id.button24);
 		buttons[4][4] = (Button)this.findViewById(R.id.button25);
 	}
 	
 	// bind row of buttons click events
 	private void bindOnClicks()
 	{
+		newGame.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				startGame();
+			}
+		});
+		
 		// bind each row of buttons on click events
 		bindRow(0);
 		bindRow(1);
@@ -495,6 +509,7 @@ public class Game2 extends Activity {
 			public void onClick(View v) {
 				board.doClick(i,0);
 				displayGrid();
+				play_sound();
 			}
 		});
 		
@@ -503,6 +518,7 @@ public class Game2 extends Activity {
 			public void onClick(View v) {
 				board.doClick(i,1);
 				displayGrid();
+				play_sound();
 			}
 		});
 		
@@ -511,6 +527,7 @@ public class Game2 extends Activity {
 			public void onClick(View v) {
 				board.doClick(i,2);
 				displayGrid();
+				play_sound();
 			}
 		});
 		
@@ -519,6 +536,7 @@ public class Game2 extends Activity {
 			public void onClick(View v) {
 				board.doClick(i,3);
 				displayGrid();
+				play_sound();
 			}
 		});
 		
@@ -527,6 +545,7 @@ public class Game2 extends Activity {
 			public void onClick(View v) {
 				board.doClick(i,4);
 				displayGrid();
+				play_sound();
 			}
 		});
 	}
@@ -635,26 +654,13 @@ public class Game2 extends Activity {
 		}
 	}
 	
-    /** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-       	
-    	equationTouched = new int[6];
-    	for (int i = 0; i < 6; i++)
+	private void startGame()
+	{
+		for (int i = 0; i < 6; i++)
     		equationTouched[i] = -1;
-    	countTouched = 0;
-    	solvedEquations = new int[10][5];
-    	countSolved = 0;
-    	
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-                             WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.game2);
-        
-        board.boardSize = 5;
-        
-        //setup Score and list of equations
+		countTouched = 0;
+		countSolved = 0;
+		 //setup Score and list of equations
         showSolved();
         
         // bind the buttons into an array
@@ -667,5 +673,24 @@ public class Game2 extends Activity {
         
         // setup the grid of tiles
         setupTiles();
+	}
+	
+    /** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+       	
+    	equationTouched = new int[6];
+    	solvedEquations = new int[10][5];
+    	buttons = new Button[5][5];
+    	
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                             WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.game2);
+        
+        board.boardSize = 5;
+        
+       startGame();
     }
 }

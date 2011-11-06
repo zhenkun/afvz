@@ -121,7 +121,7 @@ public class Game1 extends Activity {
 					buttons[i][j].setBackgroundColor(Color.BLACK);
 			}
 		}
-		play_sound();
+		
 		if(isBoardValid()) {
 			Toast.makeText(Game1.this, "You Win", Toast.LENGTH_SHORT).show();
 			freeze_board();
@@ -218,6 +218,7 @@ public class Game1 extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 0);
 				displayGrid();
+				play_sound();
 			}
 		});
 
@@ -226,6 +227,7 @@ public class Game1 extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 1);
 				displayGrid();
+				play_sound();
 			}
 		});
 
@@ -234,6 +236,7 @@ public class Game1 extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 2);
 				displayGrid();
+				play_sound();
 			}
 		});
 
@@ -242,6 +245,7 @@ public class Game1 extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 3);
 				displayGrid();
+				play_sound();
 			}
 		});
 
@@ -250,6 +254,7 @@ public class Game1 extends Activity {
 			public void onClick(View v) {
 				board.doClick(i, 4);
 				displayGrid();
+				play_sound();
 			}
 		});
 	}

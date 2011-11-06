@@ -112,13 +112,13 @@ public final class R {
         public static final int ai_btn7=0x7f060023;
         public static final int ai_btn8=0x7f060024;
         public static final int ai_btn9=0x7f060025;
-        public static final int btn_game1=0x7f060061;
+        public static final int btn_game1=0x7f060062;
         public static final int btn_game1_back=0x7f060042;
         public static final int btn_game1_next=0x7f060041;
-        public static final int btn_game2=0x7f060063;
+        public static final int btn_game2=0x7f060064;
         public static final int btn_newAIGame=0x7f060038;
         public static final int btn_newGame=0x7f060037;
-        public static final int btn_null=0x7f060062;
+        public static final int btn_null=0x7f060063;
         public static final int button1=0x7f060045;
         public static final int button10=0x7f06004e;
         public static final int button11=0x7f06004f;
@@ -178,13 +178,14 @@ public final class R {
         public static final int linearLayout2=0x7f060001;
         public static final int linearLayout3=0x7f06001c;
         public static final int linearLayout4=0x7f060036;
+        public static final int newGame=0x7f06005e;
         public static final int rBtn2x2=0x7f06003a;
         public static final int rBtn3x3=0x7f06003b;
         public static final int rBtn4x4=0x7f06003c;
         public static final int rBtn5x5=0x7f06003d;
-        public static final int textView1=0x7f06005e;
-        public static final int textView2=0x7f06005f;
-        public static final int textView3=0x7f060060;
+        public static final int textView1=0x7f06005f;
+        public static final int textView2=0x7f060060;
+        public static final int textView3=0x7f060061;
     }
     public static final class layout {
         public static final int ai=0x7f030000;
