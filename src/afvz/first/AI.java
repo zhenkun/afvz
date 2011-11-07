@@ -156,6 +156,32 @@ public class AI extends Activity {
 		else return false;
 	}
 	
+	public Boolean isAiBoardValid()
+	{
+		int val;
+		Boolean res=true;
+		
+		// if the first one is the tile
+		if (board.getGrid2(0, 0) == numType.BLANKTILE) {
+			for (int i = 1; i < boardsize*boardsize; i++) {
+				val = board.getGrid2(i/boardsize, i%boardsize);
+				res &= (val == i);
+				if (!res) return false;		//short circuit
+			}
+			return res;
+		}
+		// if the last one is the tile
+		else if (board.getGrid2(boardsize-1, boardsize-1) == numType.BLANKTILE) {
+			for (int i = 0; i < boardsize*boardsize-1; i++) {
+				val = board.getGrid2(i/boardsize, i%boardsize);
+				res &= (val == i+1);
+				if (!res) return false;		//short circuit
+			}
+			return res;
+		}
+		else return false;
+	}
+	
 	// initialize the board to the original state, the right bottom is the tile 
 	private void initializeBoard() {
 		int accu = 0;
@@ -443,6 +469,13 @@ public class AI extends Activity {
 					    	 
 					    	 // show the AI after backtracking one step
 					    	 displayGrid2();
+					    	 
+					    	 if(isAiBoardValid())
+					    	 {
+					    		 Toast.makeText(AI.this, "You Lose", Toast.LENGTH_SHORT).show();
+							 	freeze_board();
+							 	this.cancel();
+					    	 }
 					     }
 
 					     public void onFinish() {
