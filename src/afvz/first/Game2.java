@@ -507,45 +507,61 @@ public class Game2 extends Activity {
 		// setup so it passes in its row and 0th position on that row
 		buttons[i][0].setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				board.doClick(i,0);
-				displayGrid();
-				play_sound();
+				if(board.getGrid(i,0) != numType.BLANKTILE)
+				{
+					board.doClick(i, 0);
+					displayGrid();
+					play_sound();
+				}
 			}
 		});
-		
+
 		// setup so it passes in its row and 1st position on that row
 		buttons[i][1].setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				board.doClick(i,1);
-				displayGrid();
-				play_sound();
+				if(board.getGrid(i,1) != numType.BLANKTILE)
+				{
+					board.doClick(i, 1);
+					displayGrid();
+					play_sound();
+				}
 			}
 		});
-		
+
 		// setup so it passes in its row and 2nd position on that row
 		buttons[i][2].setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				board.doClick(i,2);
-				displayGrid();
-				play_sound();
+				
+				if(board.getGrid(i,2) != numType.BLANKTILE)
+				{
+					board.doClick(i, 2);
+					displayGrid();
+					play_sound();
+				}
 			}
 		});
-		
+
 		// setup so it passes in its row and 3rd position on that row
 		buttons[i][3].setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				board.doClick(i,3);
-				displayGrid();
-				play_sound();
+				if(board.getGrid(i,3) != numType.BLANKTILE)
+				{
+					board.doClick(i, 3);
+					displayGrid();
+					play_sound();
+				}
 			}
 		});
-		
+
 		// setup so it passes in its row and 4th position on that row
 		buttons[i][4].setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				board.doClick(i,4);
-				displayGrid();
-				play_sound();
+				if(board.getGrid(i,4) != numType.BLANKTILE)
+				{
+					board.doClick(i, 4);
+					displayGrid();
+					play_sound();
+				}
 			}
 		});
 	}
@@ -660,6 +676,8 @@ public class Game2 extends Activity {
     		equationTouched[i] = -1;
 		countTouched = 0;
 		countSolved = 0;
+		score = 0;
+		
 		 //setup Score and list of equations
         showSolved();
         

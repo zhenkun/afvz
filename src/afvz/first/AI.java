@@ -18,6 +18,8 @@ import android.widget.TextView;
 public class AI extends Activity {
 
 	BoardConfig board = new BoardConfig();
+	CountDownTimer startWait;
+	CountDownTimer aiWait;
 	
 	// a variable for canceling the timer when the board is solved
 	boolean solved = false;
@@ -204,6 +206,9 @@ public class AI extends Activity {
             public void onClick(View v) {
                 // Perform action on click
 
+            	startWait.cancel();
+            	aiWait.cancel();
+            	
                 Intent intent = new Intent(AI.this, AI.class);
                 startActivity(intent);
             }
@@ -213,6 +218,10 @@ public class AI extends Activity {
         btn_newNGame.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 // Perform action on clicks
+            	
+            	startWait.cancel();
+            	aiWait.cancel();
+            	
                 Intent intent = new Intent(AI.this, Game1.class);
                 startActivity(intent);
             }
@@ -226,45 +235,61 @@ public class AI extends Activity {
 		// setup so it passes in its row and 0th position on that row
 		buttons[i][0].setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				board.doClick(i, 0);
-				displayGrid();
-				play_sound();
+				if(board.getGrid(i,0) != numType.BLANKTILE)
+				{
+					board.doClick(i, 0);
+					displayGrid();
+					play_sound();
+				}
 			}
 		});
 
 		// setup so it passes in its row and 1st position on that row
 		buttons[i][1].setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				board.doClick(i, 1);
-				displayGrid();
-				play_sound();
+				if(board.getGrid(i,1) != numType.BLANKTILE)
+				{
+					board.doClick(i, 1);
+					displayGrid();
+					play_sound();
+				}
 			}
 		});
 
 		// setup so it passes in its row and 2nd position on that row
 		buttons[i][2].setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				board.doClick(i, 2);
-				displayGrid();
-				play_sound();
+				
+				if(board.getGrid(i,2) != numType.BLANKTILE)
+				{
+					board.doClick(i, 2);
+					displayGrid();
+					play_sound();
+				}
 			}
 		});
 
 		// setup so it passes in its row and 3rd position on that row
 		buttons[i][3].setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				board.doClick(i, 3);
-				displayGrid();
-				play_sound();
+				if(board.getGrid(i,3) != numType.BLANKTILE)
+				{
+					board.doClick(i, 3);
+					displayGrid();
+					play_sound();
+				}
 			}
 		});
 
 		// setup so it passes in its row and 4th position on that row
 		buttons[i][4].setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				board.doClick(i, 4);
-				displayGrid();
-				play_sound();
+				if(board.getGrid(i,4) != numType.BLANKTILE)
+				{
+					board.doClick(i, 4);
+					displayGrid();
+					play_sound();
+				}
 			}
 		});
 	}
@@ -362,7 +387,7 @@ public class AI extends Activity {
 		
 		 
 		// for implementation of AI
-		new CountDownTimer(3000, 1000) {
+		startWait = new CountDownTimer(3000, 1000) {
 			int totalTime = 0;
 			 
 		     public void onTick(long millisUntilFinished) {
@@ -383,7 +408,7 @@ public class AI extends Activity {
 		    		 totalTime = 10000;
 		    		 
 		    	 
-		    	 new CountDownTimer(totalTime, 1000) {
+		    	 aiWait = new CountDownTimer(totalTime, 1000) {
 		    	
 		    		 
 						// i is total number of shuffles that we made and we want to backtrack in AI
