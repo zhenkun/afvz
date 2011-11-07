@@ -20,6 +20,7 @@ public class AI extends Activity {
 	BoardConfig board = new BoardConfig();
 	CountDownTimer startWait;
 	CountDownTimer aiWait;
+	boolean aiGoing;
 	
 	// a variable for canceling the timer when the board is solved
 	boolean solved = false;
@@ -207,7 +208,8 @@ public class AI extends Activity {
                 // Perform action on click
 
             	startWait.cancel();
-            	aiWait.cancel();
+            	if(aiGoing)
+            		aiWait.cancel();
             	
                 Intent intent = new Intent(AI.this, AI.class);
                 startActivity(intent);
@@ -220,7 +222,8 @@ public class AI extends Activity {
                 // Perform action on clicks
             	
             	startWait.cancel();
-            	aiWait.cancel();
+            	if(aiGoing)
+            		aiWait.cancel();
             	
                 Intent intent = new Intent(AI.this, Game1.class);
                 startActivity(intent);
@@ -346,6 +349,15 @@ public class AI extends Activity {
 			break;
 		}
 	}
+	
+	@Override
+	public void onBackPressed() {
+	  if (aiGoing)
+			aiWait.cancel();
+	  startWait.cancel();
+	  super.onBackPressed();
+	}
+
 
 	/** Called when the activity is first created. */
 	@Override
@@ -359,6 +371,7 @@ public class AI extends Activity {
 		
 		tv = (TextView)this.findViewById(R.id.TextView1);
 
+		aiGoing = false;
 		
 		bindButtons(); 	// bind the buttons into an array
 		bindButtons2();	// bind the AI buttons into an array
@@ -406,10 +419,9 @@ public class AI extends Activity {
 		    		 totalTime = 158000;    		 
 		    	 else if(board.boardSize == 2)
 		    		 totalTime = 10000;
-		    		 
+		    	 aiGoing = true;
 		    	 
 		    	 aiWait = new CountDownTimer(totalTime, 1000) {
-		    	
 		    		 
 						// i is total number of shuffles that we made and we want to backtrack in AI
 						int i = board.shuffleSize - 1;
