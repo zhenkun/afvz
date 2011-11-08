@@ -82,10 +82,10 @@ public class AI extends Activity {
 	}
 	
 	// when the game is done, freeze the board, let user to start a new one
-	private void freeze_board()	{
+	private void freeze_board(boolean state)	{
 		for(int i=0; i<5; i++)
 			for(int j=0; j<5; j++)
-				buttons[i][j].setEnabled(false);
+				buttons[i][j].setEnabled(state);
 	}
 	
 
@@ -107,7 +107,7 @@ public class AI extends Activity {
 		if(isBoardValid()){ 
 			Toast.makeText(AI.this, "You Win", Toast.LENGTH_SHORT).show();
 			solved = true;
-			freeze_board();
+			freeze_board(false);
 		}
 
 	}
@@ -156,7 +156,7 @@ public class AI extends Activity {
 		else return false;
 	}
 	
-	public Boolean isAiBoardValid()
+	public void isAiBoardValid()
 	{
 		int val;
 		Boolean res=true;
@@ -166,20 +166,30 @@ public class AI extends Activity {
 			for (int i = 1; i < boardsize*boardsize; i++) {
 				val = board.getGrid2(i/boardsize, i%boardsize);
 				res &= (val == i);
-				if (!res) return false;		//short circuit
 			}
-			return res;
+			
 		}
 		// if the last one is the tile
-		else if (board.getGrid2(boardsize-1, boardsize-1) == numType.BLANKTILE) {
-			for (int i = 0; i < boardsize*boardsize-1; i++) {
-				val = board.getGrid2(i/boardsize, i%boardsize);
-				res &= (val == i+1);
-				if (!res) return false;		//short circuit
+		else 
+		{
+			if (board.getGrid2(boardsize-1, boardsize-1) == numType.BLANKTILE) 
+			{
+				for (int i = 0; i < boardsize*boardsize-1; i++) {
+					val = board.getGrid2(i/boardsize, i%boardsize);
+					res &= (val == i+1);
+				}
 			}
-			return res;
+			else
+				res = false;
 		}
-		else return false;
+		
+		if (res)
+		{
+    		Toast.makeText(AI.this, "You Lose", Toast.LENGTH_SHORT).show();
+		 	freeze_board(false);
+		 	solved = true;
+		 	aiWait.cancel();
+    	 }
 	}
 	
 	// initialize the board to the original state, the right bottom is the tile 
@@ -237,22 +247,18 @@ public class AI extends Activity {
             	if(aiGoing)
             		aiWait.cancel();
             	
-                Intent intent = new Intent(AI.this, AI.class);
-                startActivity(intent);
+            	solved= false;
+            	freeze_board(true);
+            	
+                startBoard();
             }
         });
         
         final Button btn_newNGame = (Button) findViewById(R.id.btn_newGame);
         btn_newNGame.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                // Perform action on clicks
-            	
-            	startWait.cancel();
-            	if(aiGoing)
-            		aiWait.cancel();
-            	
-                Intent intent = new Intent(AI.this, Game1.class);
-                startActivity(intent);
+                // Perform action on clicks          	
+            	onBackPressed();
             }
         });
 
@@ -384,47 +390,8 @@ public class AI extends Activity {
 	  super.onBackPressed();
 	}
 
-
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-                             WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.ai);
-		board.boardSize = 5;
-		
-		tv = (TextView)this.findViewById(R.id.TextView1);
-
-		aiGoing = false;
-		
-		bindButtons(); 	// bind the buttons into an array
-		bindButtons2();	// bind the AI buttons into an array
-		bindOnClicks(); // bind their onClick events
-		set_board_size(size);
-		
-		
-   	 	if(board.boardSize == 5){
-   	 		board.shuffleSize = 400;
-   	 		board.moves = new int[board.shuffleSize];}
-   	 	else if(board.boardSize == 4){
-   	 		board.shuffleSize = 250;
-   	 		board.moves = new int[board.shuffleSize];
-   	 	}
-   	 	else if(board.boardSize == 3){
-   	 		board.shuffleSize = 150;
-   	 		board.moves = new int[board.shuffleSize];
-   	 	}
-   	 	else if(board.boardSize == 2){
-   	 		board.shuffleSize = 8;
-   	 		board.moves = new int[board.shuffleSize];
-   	 	}
-		
-		setupTiles(); 	// setup the grid of tiles
-		
-		
-		 
+	private void setupTimers()
+	{
 		// for implementation of AI
 		startWait = new CountDownTimer(3000, 1000) {
 			int totalTime = 0;
@@ -462,30 +429,22 @@ public class AI extends Activity {
 					    	 {	
 					    		 board.solveAI(i);
 					    	 	 i -=1;
+					    	 	 displayGrid2();
+					    	 	 isAiBoardValid();
 					    	 }
 					    	 // to count down until the player solve the game or times up 
-					    	 if(!solved)
+					    	 //if(!solved)
 					    		// tv.setText("" + millisUntilFinished / 1000);
 					    	 
 					    	 // show the AI after backtracking one step
-					    	 displayGrid2();
+					    	 //displayGrid2();
 					    	 
-					    	 if(isAiBoardValid())
-					    	 {
-					    		 Toast.makeText(AI.this, "You Lose", Toast.LENGTH_SHORT).show();
-							 	freeze_board();
-							 	this.cancel();
-					    	 }
+					    	 //isAiBoardValid();
+					    	 
 					     }
 
 					     public void onFinish() {
-					    	 if(!solved)
-					    	 {
-						    	tv.setText("0");
-						 		if(!isBoardValid()) 
-									Toast.makeText(AI.this, "You Lose", Toast.LENGTH_SHORT).show();
-						 		freeze_board();
-					    	 }
+					    	 
 					 				
 					     }
 					  }.start();	    	 
@@ -493,4 +452,51 @@ public class AI extends Activity {
 		  }.start();	
 
 	}
+	
+	private void startBoard()
+	{
+		aiGoing = false;
+		set_board_size(size);
+		
+		if(board.boardSize == 5){
+   	 		board.shuffleSize = 400;
+   	 		board.moves = new int[board.shuffleSize];}
+   	 	else if(board.boardSize == 4){
+   	 		board.shuffleSize = 250;
+   	 		board.moves = new int[board.shuffleSize];
+   	 	}
+   	 	else if(board.boardSize == 3){
+   	 		board.shuffleSize = 150;
+   	 		board.moves = new int[board.shuffleSize];
+   	 	}
+   	 	else if(board.boardSize == 2){
+   	 		board.shuffleSize = 8;
+   	 		board.moves = new int[board.shuffleSize];
+   	 	}
+		
+		setupTiles(); 	// setup the grid of tiles
+		
+		setupTimers();
+		
+	}
+
+	/** Called when the activity is first created. */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                             WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setContentView(R.layout.ai);
+		board.boardSize = 5;
+		
+		tv = (TextView)this.findViewById(R.id.TextView1);
+
+		bindButtons(); 	// bind the buttons into an array
+		bindButtons2();	// bind the AI buttons into an array
+		bindOnClicks(); // bind their onClick events
+		
+		startBoard();
+			 
+	}	
 }

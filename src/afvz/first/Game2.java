@@ -91,21 +91,41 @@ public class Game2 extends Activity {
 			
 		if(valid && previous == false)
 		{
-			
-			if(getGridVal(1) == numType.EQUALSIGN)
+			if(equationTouched[0] > equationTouched[4])
 			{
-				num1 = getGridVal(4);
-				num2 = getGridVal(2);
-				val = getGridVal(0);
-				op = getGridVal(3);
+				if(getGridVal(1) == numType.EQUALSIGN)
+				{
+					num1 = getGridVal(4);
+					num2 = getGridVal(2);
+					val = getGridVal(0);
+					op = getGridVal(3);
+				}
+			
+				if(getGridVal(3) == numType.EQUALSIGN)
+				{
+					num1 = getGridVal(2);
+					num2 = getGridVal(0);
+					op = getGridVal(1);
+					val = getGridVal(4);
+				}
 			}
-			
-			if(getGridVal(3) == numType.EQUALSIGN)
+			else
 			{
-				num1 = getGridVal(0);
-				num2 = getGridVal(2);
-				op = getGridVal(1);
-				val = getGridVal(4);
+				if(getGridVal(1) == numType.EQUALSIGN)
+				{
+					num1 = getGridVal(2);
+					num2 = getGridVal(4);
+					val = getGridVal(0);
+					op = getGridVal(3);
+				}
+			
+				if(getGridVal(3) == numType.EQUALSIGN)
+				{
+					num1 = getGridVal(0);
+					num2 = getGridVal(2);
+					op = getGridVal(1);
+					val = getGridVal(4);
+				}
 			}
 			
 			solvedEquations[countSolved][0] = num1;
@@ -133,20 +153,41 @@ public class Game2 extends Activity {
 		op = -1;
 	
 		
-		if(getGridVal(1) == numType.EQUALSIGN)
+		if(equationTouched[0] > equationTouched[4])
 		{
-			num1 = getGridVal(4);
-			num2 = getGridVal(2);
-			val = getGridVal(0);
-			op = getGridVal(3);
-		}
+			if(getGridVal(1) == numType.EQUALSIGN)
+			{
+				num1 = getGridVal(4);
+				num2 = getGridVal(2);
+				val = getGridVal(0);
+				op = getGridVal(3);
+			}
 		
-		if(getGridVal(3) == numType.EQUALSIGN)
+			if(getGridVal(3) == numType.EQUALSIGN)
+			{
+				num1 = getGridVal(2);
+				num2 = getGridVal(0);
+				op = getGridVal(1);
+				val = getGridVal(4);
+			}
+		}
+		else
 		{
-			num1 = getGridVal(0);
-			num2 = getGridVal(2);
-			op = getGridVal(1);
-			val = getGridVal(4);
+			if(getGridVal(1) == numType.EQUALSIGN)
+			{
+				num1 = getGridVal(2);
+				num2 = getGridVal(4);
+				val = getGridVal(0);
+				op = getGridVal(3);
+			}
+		
+			if(getGridVal(3) == numType.EQUALSIGN)
+			{
+				num1 = getGridVal(0);
+				num2 = getGridVal(2);
+				op = getGridVal(1);
+				val = getGridVal(4);
+			}
 		}
 		
 		switch(op)
@@ -194,18 +235,37 @@ public class Game2 extends Activity {
 		
 		for (int i = 0; i < countSolved; i++)
 		{
-			if(getGridVal(1) == numType.EQUALSIGN)
+			if(equationTouched[0] > equationTouched[4])
 			{
-				num1 = getGridVal(4);
-				num2 = getGridVal(2);
-				op = getGridVal(3);
-			}
+				if(getGridVal(1) == numType.EQUALSIGN)
+				{
+					num1 = getGridVal(4);
+					num2 = getGridVal(2);
+					op = getGridVal(3);
+				}
 			
-			if(getGridVal(3) == numType.EQUALSIGN)
+				if(getGridVal(3) == numType.EQUALSIGN)
+				{
+					num1 = getGridVal(2);
+					num2 = getGridVal(0);
+					op = getGridVal(1);
+				}
+			}
+			else
 			{
-				num1 = getGridVal(0);
-				num2 = getGridVal(2);
-				op = getGridVal(1);
+				if(getGridVal(1) == numType.EQUALSIGN)
+				{
+					num1 = getGridVal(2);
+					num2 = getGridVal(4);
+					op = getGridVal(3);
+				}
+			
+				if(getGridVal(3) == numType.EQUALSIGN)
+				{
+					num1 = getGridVal(0);
+					num2 = getGridVal(2);
+					op = getGridVal(1);
+				}
 			}
 			
 			if(solvedEquations[i][0] == num1 && solvedEquations[i][1] == op && solvedEquations[i][2] == num2)
@@ -596,6 +656,8 @@ public class Game2 extends Activity {
 	private void touchEvent(View v, MotionEvent event)
 	{
 		float curX, curY;
+		boolean previousEquations = false;
+		boolean validMove = false;
 		curX = event.getRawX();
 		curY = event.getRawY();
 		int curButton = -1;
@@ -641,31 +703,35 @@ public class Game2 extends Activity {
 							curButton = 5 * i + j;
 				}
 			
-			if(curButton != -1)
+			for(int i = 0; i < countTouched; i++)
+				if (equationTouched[i] == curButton)
+					previousEquations = true;
+			
+			if(countTouched == 0 || curButton == equationTouched[countTouched -1] - 5 || curButton == equationTouched[countTouched -1] + 5 || curButton == equationTouched[countTouched -1] - 1 || curButton == equationTouched[countTouched -1] + 1)
+				validMove = true;
+			
+			if(curButton != -1 && previousEquations == false && validMove)
 			{
-				if(countTouched == 0 || equationTouched[countTouched -1] != curButton)
+	
+				equationTouched[countTouched] = curButton;
+				
+				countTouched++;
+					
+				if(countTouched > 5)
 				{
-				
-					equationTouched[countTouched] = curButton;
-				
-					countTouched++;
-					
-					if(countTouched > 5)
-					{
-						equationTouched[0] = equationTouched[1];
-						equationTouched[1] = equationTouched[2];
-						equationTouched[2] = equationTouched[3];
-						equationTouched[3] = equationTouched[4];
-						equationTouched[4] = equationTouched[5];
-						countTouched = 5;
-						displayGrid();
-					}
-					
-					displaySelected();
-					
-					if (countTouched == 5)
-						checkSolution();
+					equationTouched[0] = equationTouched[1];
+					equationTouched[1] = equationTouched[2];
+					equationTouched[2] = equationTouched[3];
+					equationTouched[3] = equationTouched[4];
+					equationTouched[4] = equationTouched[5];
+					countTouched = 5;
+					displayGrid();
 				}
+					
+				displaySelected();
+					
+				if (countTouched == 5)
+					checkSolution();
 			}
 		}
 	}
