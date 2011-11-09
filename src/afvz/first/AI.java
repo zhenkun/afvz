@@ -1,7 +1,6 @@
 package afvz.first;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -207,11 +206,15 @@ public class AI extends Activity {
 	
 	// setup the values for the tiles
 	private void setupTiles() {
-		initializeBoard(); 		// generate a good board
-		board.randomizeTiles(); // swap tiles around
-		displayGrid();			// display tiles
-		displayGrid2();			//display tiles of AI
-		 
+		boolean solvedAlready = true;
+		
+		while(solvedAlready)
+		{
+			initializeBoard(); 		// generate a good board
+			board.randomizeTiles(); // swap tiles around
+			solvedAlready = isBoardValid();
+		}
+		
 	}
 
 	// bind buttons in an array so they are easy to access
@@ -475,6 +478,9 @@ public class AI extends Activity {
    	 	}
 		
 		setupTiles(); 	// setup the grid of tiles
+		
+		displayGrid();			// display tiles
+		displayGrid2();			//display tiles of AI
 		
 		setupTimers();
 		

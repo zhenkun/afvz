@@ -172,8 +172,14 @@ public class Game1 extends Activity {
 
 	// setup the values for the tiles
 	private void setupTiles() {
-		initializeBoard(); 		// generate a good board
-		board.randomizeTiles(); // swap tiles around
+		boolean solvedAlready = true;
+		
+		while(solvedAlready)
+		{
+			initializeBoard(); 		// generate a good board
+			board.randomizeTiles(); // swap tiles around
+			solvedAlready = isBoardValid();
+		}
 		displayGrid();			// display tiles
 	}
 

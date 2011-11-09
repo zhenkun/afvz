@@ -70,10 +70,9 @@ public class Game2 extends Activity {
 		
 		//final String [] items=new String[]{equations[0], equations[1], equations[2]};
 		
-        ArrayAdapter ad=new ArrayAdapter(Game2.this, android.R.layout.simple_list_item_1,equations);
+        ArrayAdapter<String> ad=new ArrayAdapter<String>(Game2.this, android.R.layout.simple_list_item_1,equations);
         list=(ListView)findViewById(R.id.equationList);
         list.setAdapter(ad);
-    	
 		
 	}
 	
@@ -206,7 +205,7 @@ public class Game2 extends Activity {
 				break;
 		}
 		
-		if (val > numType.NINE)
+		if (val > numType.NINE || num1 > numType.NINE || num2 > numType.NINE)
 			flag = false;
 		
 		return flag;
