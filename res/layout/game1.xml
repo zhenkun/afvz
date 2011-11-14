@@ -59,7 +59,7 @@
         <RadioButton android:checked="true"  android:id="@+id/rBtn5x5" android:text="5x5" android:layout_width="100dp"/>
 	</RadioGroup>
     
-    <Button android:text="Play with Computer" android:id="@+id/gm2_btn_AI" android:layout_gravity="center" android:layout_height="wrap_content" android:layout_width="130dp"></Button>    
-    <Button android:text="New Game" android:id="@+id/gm1_btn_new" android:layout_gravity="center|bottom" android:layout_width="130dp" android:layout_height="wrap_content"></Button>
+    <Button android:id="@+id/gm2_btn_AI" android:layout_gravity="center" android:layout_height="wrap_content" android:layout_width="wrap_content"></Button>    
+    <Button android:id="@+id/gm1_btn_new" android:layout_gravity="center|bottom" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 </LinearLayout>
 </LinearLayout>

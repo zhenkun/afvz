@@ -202,6 +202,7 @@ public class Game1 extends Activity {
 		
 		// New game button, randomly shuffle the tiles, active the board
 		Button btn_new_game = (Button) this.findViewById(R.id.gm1_btn_new);
+		btn_new_game.setBackgroundResource(R.drawable.btn_refresh);
 		btn_new_game.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				setupTiles();
@@ -211,6 +212,7 @@ public class Game1 extends Activity {
 		
 		// show AI if the AI button clicked
         Button btn_aigame = (Button) this.findViewById(R.id.gm2_btn_AI);
+        btn_aigame.setBackgroundResource(R.drawable.btn_grp);
 		btn_aigame.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 // Perform action on clicks

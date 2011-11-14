@@ -81,7 +81,7 @@
         		<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
 					android:layout_gravity="center" android:gravity="right"
 					android:stretchColumns="0,2" android:layout_width="300dip"
-					android:layout_height="300dip" android:layout_marginLeft="30sp" android:layout_marginTop="80sp">
+					android:layout_height="300dip" android:layout_marginLeft="30sp" android:layout_marginTop="15sp">
 					<TableRow>
 						<Button android:id="@+id/ai_btn1" android:layout_width="60dp"
 							android:layout_height="60dp"></Button>
@@ -148,9 +148,19 @@
 					</TableRow>
 			
 				</TableLayout>
+				
+
+                    <RadioGroup android:layout_width="fill_parent" android:gravity="center" android:layout_height="wrap_content" android:orientation="horizontal" android:id="@+id/RBGroup1" android:layout_marginLeft="80sp" android:layout_marginTop="40sp">
+                        <RadioButton android:checked="false" android:id="@+id/rBtn_easy" android:text="Easy" android:layout_width="100dp"/>
+                        <RadioButton android:checked="true"  android:id="@+id/rBtn_medi" android:text="Medium" android:layout_width="100dp"/>
+                        <RadioButton android:checked="false" android:id="@+id/rBtn_hard" android:text="Hard" android:layout_width="100dp"/>
+                    </RadioGroup>
+
+
+				
         		<LinearLayout android:id="@+id/linearLayout4" android:layout_height="wrap_content" android:weightSum="1" android:layout_weight="0.25" android:layout_width="match_parent">
-        			<Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="Normal Mode" android:id="@+id/btn_newGame" android:layout_marginLeft="100sp" android:layout_marginTop="40sp"></Button>
-        			<Button android:layout_height="wrap_content" android:layout_weight="0.06" android:layout_width="wrap_content" android:text="New Game" android:id="@+id/btn_newAIGame" android:layout_marginTop="40sp"></Button>
+        			<Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/btn_newGame" android:layout_marginLeft="100sp" android:layout_marginTop="30sp"></Button>
+        			<Button android:layout_height="wrap_content" android:layout_weight="0.06" android:layout_width="wrap_content"  android:id="@+id/btn_newAIGame" android:layout_marginTop="30sp"></Button>
         		</LinearLayout>
 			        		
 		        

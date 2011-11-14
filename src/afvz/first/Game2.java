@@ -506,6 +506,7 @@ public class Game2 extends Activity {
 	private void bindButtons()
 	{
 		newGame = (Button)this.findViewById(R.id.newGame);
+		newGame.setBackgroundResource(R.drawable.btn_refresh);
 		
 		// top row of buttons
 		buttons[0][0] = (Button)this.findViewById(R.id.button1);

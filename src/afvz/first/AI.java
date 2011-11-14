@@ -241,6 +241,7 @@ public class AI extends Activity {
 		bindRow(4);
 		
         final Button btn_newAIGame = (Button) findViewById(R.id.btn_newAIGame);
+        btn_newAIGame.setBackgroundResource(R.drawable.btn_refresh);
         //btn_newAIGame.setBackgroundResource(R.drawable.newaigame);
         btn_newAIGame.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -258,6 +259,7 @@ public class AI extends Activity {
         });
         
         final Button btn_newNGame = (Button) findViewById(R.id.btn_newGame);
+        btn_newNGame.setBackgroundResource(R.drawable.btn_ind);
         btn_newNGame.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 // Perform action on clicks          	
