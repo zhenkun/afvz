@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.Toast;
 import android.os.CountDownTimer;
 import android.widget.TextView;
@@ -21,9 +22,12 @@ public class AI extends Activity {
 	CountDownTimer aiWait;
 	boolean aiGoing;
 	
+	int level = 0; // for difficulty level
+	
 	// a variable for canceling the timer when the board is solved
 	boolean solved = false;
 	
+	private RadioButton rbEasy, rbMedi, rbHard;
 	TextView tv;
 	
 	// for setting the size of boards
@@ -72,6 +76,61 @@ public class AI extends Activity {
 		{ R.id.ai_btn16, R.id.ai_btn17, R.id.ai_btn18, R.id.ai_btn19, R.id.ai_btn20} ,
 		{ R.id.ai_btn21, R.id.ai_btn22, R.id.ai_btn23, R.id.ai_btn24, R.id.ai_btn25}
 	};
+	
+	private void bindRBonClick()
+	{
+		rbEasy = (RadioButton) findViewById(R.id.rBtn_easy);
+		rbMedi = (RadioButton) findViewById(R.id.rBtn_medi);
+		rbHard = (RadioButton) findViewById(R.id.rBtn_hard);
+		
+		
+
+		rbEasy.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				
+            	startWait.cancel();
+            	if(aiGoing)
+            		aiWait.cancel();
+            	
+            	solved= false;
+            	freeze_board(true);
+            	
+            	level = 3;
+                startBoard();
+			}
+		});
+		
+		rbMedi.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+
+            	startWait.cancel();
+            	if(aiGoing)
+            		aiWait.cancel();
+            	
+            	solved= false;
+            	freeze_board(true);
+            	
+            	level = 2;
+                startBoard();
+			}
+		});
+		
+		rbHard.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+
+            	startWait.cancel();
+            	if(aiGoing)
+            		aiWait.cancel();
+            	
+            	solved= false;
+            	freeze_board(true);
+            	
+            	level = 1;
+                startBoard();
+			}
+		});
+	}
+
 	
 	
 	private void play_sound()
@@ -239,6 +298,7 @@ public class AI extends Activity {
 		bindRow(2);
 		bindRow(3);
 		bindRow(4);
+		bindRBonClick(); // bind radio buttons onClick
 		
         final Button btn_newAIGame = (Button) findViewById(R.id.btn_newAIGame);
         btn_newAIGame.setBackgroundResource(R.drawable.btn_refresh);
@@ -356,8 +416,7 @@ public class AI extends Activity {
 				buttons[i][2].setVisibility(View.INVISIBLE);
 				aiButtons[2][i].setVisibility(View.INVISIBLE);
 				aiButtons[i][2].setVisibility(View.INVISIBLE);
-				//board.shuffleSize = 8;
-				//board.moves = new int[board.shuffleSize];
+
 			}
 		case 3:
 			for (int i = 0; i < 4; i++) {
@@ -365,8 +424,7 @@ public class AI extends Activity {
 				buttons[i][3].setVisibility(View.INVISIBLE);
 				aiButtons[3][i].setVisibility(View.INVISIBLE);
 				aiButtons[i][3].setVisibility(View.INVISIBLE);
-				//board.shuffleSize = 150;
-				//board.moves = new int[board.shuffleSize];
+
 			}
 		case 4:
 			for (int i = 0; i < 5; i++) {
@@ -374,15 +432,13 @@ public class AI extends Activity {
 				buttons[i][4].setVisibility(View.INVISIBLE);
 				aiButtons[4][i].setVisibility(View.INVISIBLE);
 				aiButtons[i][4].setVisibility(View.INVISIBLE);
-				//board.shuffleSize = 250;
-				//board.moves = new int[board.shuffleSize];
+
 			}
 			break;
 		default:
 			boardsize = 5;
 			board.boardSize = 5;
-			//board.shuffleSize = 400;
-			//board.moves = new int[board.shuffleSize];
+
 			break;
 		}
 	}
@@ -397,9 +453,11 @@ public class AI extends Activity {
 
 	private void setupTimers()
 	{
+		
 		// for implementation of AI
 		startWait = new CountDownTimer(3000, 1000) {
 			int totalTime = 0;
+			
 			 
 		     public void onTick(long millisUntilFinished) {
 		    	 
@@ -407,19 +465,19 @@ public class AI extends Activity {
 
 		     public void onFinish() {
 	    	 
-				 //new CountDownTimer(23600, 100) {
-		    	 //new CountDownTimer(156000, 1000) {
+		    	 int intervals = 1000 * level;
+		    	 
 		    	 if(board.boardSize == 5)
-		    		 totalTime = 417000;
+		    		 totalTime = 417000 * level;
 		    	 else if(board.boardSize == 4)
-		    		 totalTime = 262000;
+		    		 totalTime = 262000 * level;
 		    	 else if(board.boardSize == 3)
-		    		 totalTime = 158000;    		 
+		    		 totalTime = 158000 * level;    		 
 		    	 else if(board.boardSize == 2)
-		    		 totalTime = 10000;
+		    		 totalTime = 10000 * level;
 		    	 aiGoing = true;
 		    	 
-		    	 aiWait = new CountDownTimer(totalTime, 1000) {
+		    	 aiWait = new CountDownTimer(totalTime, intervals) {
 		    		 
 						// i is total number of shuffles that we made and we want to backtrack in AI
 						int i = board.shuffleSize - 1;
@@ -465,7 +523,8 @@ public class AI extends Activity {
 		
 		if(board.boardSize == 5){
    	 		board.shuffleSize = 400;
-   	 		board.moves = new int[board.shuffleSize];}
+   	 		board.moves = new int[board.shuffleSize];
+   	 	}
    	 	else if(board.boardSize == 4){
    	 		board.shuffleSize = 250;
    	 		board.moves = new int[board.shuffleSize];
@@ -497,6 +556,7 @@ public class AI extends Activity {
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.ai);
 		board.boardSize = 5;
+		level = 2;
 		
 		tv = (TextView)this.findViewById(R.id.TextView1);
 
