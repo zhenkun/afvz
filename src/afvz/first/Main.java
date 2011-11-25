@@ -20,6 +20,10 @@ public class Main extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.main);
+        final Button btn_help1 = (Button) findViewById(R.id.btn_help1);
+        btn_help1.setBackgroundResource(R.drawable.btn_help);
+        final Button btn_help2 = (Button) findViewById(R.id.btn_help2);
+        btn_help2.setBackgroundResource(R.drawable.btn_help);
         
         final Button btn_gm1 = (Button) findViewById(R.id.btn_game1);
         btn_gm1.setBackgroundResource(R.drawable.game1);
