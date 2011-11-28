@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/kids"
+    android:background="@drawable/bk"
 	android:orientation="horizontal" android:layout_width="match_parent"
 	android:gravity="center" android:layout_gravity="center"
 	android:layout_height="match_parent" android:weightSum="1">
 
 	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_gravity="center" android:gravity="center"
-		android:stretchColumns="0,3" android:layout_width="572dip"
-		android:layout_height="256dip">
+		android:stretchColumns="0,3" android:layout_width="572dip" android:layout_height="455dp">
 
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
@@ -36,6 +35,10 @@
 				android:layout_gravity="center"></Button>
 
 		</TableRow>
+		<LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout1" android:layout_width="wrap_content" android:layout_marginTop="20dp">
+			<Button android:id="@+id/btn_help1" android:layout_height="50dp" android:layout_width="50dp" android:layout_marginLeft="105dp"></Button>
+			<Button android:id="@+id/btn_help2" android:layout_height="50dp" android:layout_width="50dp" android:layout_marginLeft="265dp"></Button>
+		</LinearLayout>
 	</TableLayout>
 
 </LinearLayout>
