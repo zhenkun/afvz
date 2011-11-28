@@ -35,6 +35,7 @@ public class Main extends Activity {
         
         final Button btn_gm2 = (Button) findViewById(R.id.btn_game2);
         btn_gm2.setBackgroundResource(R.drawable.game2);
+        btn_gm2.setAlpha((float) 0.5);
         btn_gm2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 // Perform action on clicks

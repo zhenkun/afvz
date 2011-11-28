@@ -186,8 +186,10 @@ public class Game1 extends Activity {
 	// bind buttons in an array so they are easy to access
 	private void bindButtons() {
 		for(int i=0; i<5; i++)
-			for(int j=0; j<5; j++)
+			for(int j=0; j<5; j++) {
 				buttons[i][j] = (Button) this.findViewById(btn_id[i][j]);
+				buttons[i][j].setAlpha((float) 0.75);
+			}
 	}
 
 	// bind row of buttons click events
